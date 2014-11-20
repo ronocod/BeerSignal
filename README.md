@@ -9,4 +9,6 @@ Android Client
 
 The code for the Android client is in the 'android' subfolder. You'll need to add in keys/tokens/IDs for a Parse app, a Facebook app and, optionally, a Crashlytics app for full functionality.
 
-I'll be uploading the source code for the Parse app soon.
+Parse Backend
+--
+The code for the Parse backend is in the 'parse' subfolder. You'll need to add in your application ID and master key into /config/global.json.

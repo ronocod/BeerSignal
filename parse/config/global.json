@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "BeerSignal": {
+            "applicationId": "YOUR_PARSE_APP_ID", 
+            "masterKey": "YOUR_PARSE_APP_MASTER_KEY"
+        }, 
+        "_default": {
+            "link": "BeerSignal"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.0"
+    }
+}
