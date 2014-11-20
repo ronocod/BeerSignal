@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.starstorm.beer.activity.MainActivity" >
+    <item android:id="@+id/action_change_username"
+        android:title="Change Username"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_logout"
+        android:title="Logout"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+</menu>

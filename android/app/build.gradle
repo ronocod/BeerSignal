@@ -1,0 +1,90 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url 'http://download.crashlytics.com/maven' }
+    }
+
+    dependencies {
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.14.3'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.5'
+//        classpath 'com.jakewharton.hugo:hugo-plugin:1.1.0'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'crashlytics'
+apply plugin: 'com.github.ben-manes.versions'
+//apply plugin: 'hugo'
+
+def versionMajor = 1
+def versionMinor = 2
+def versionPatch = 0
+
+android {
+    signingConfigs {
+        /*  get signing data from properties file
+         *  DO NOT CHECK PROPERTIES FILE INTO VCS
+         *
+         *  guide: http://stackoverflow.com/a/21020469
+         *  example: https://github.com/romannurik/muzei
+         */
+        play_store_release {
+            def Properties localProps = new Properties()
+            localProps.load(new FileInputStream(file('../local.properties')))
+            def Properties keyProps = new Properties()
+            if (localProps['keystore.props.file'] != null) {
+                keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
+            }
+            storeFile keyProps["store"] != null ? file(keyProps["store"]) : null
+            keyAlias keyProps["alias"]
+            storePassword keyProps["storePass"]
+            keyPassword keyProps["pass"]
+        }
+    }
+
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+    defaultConfig {
+        applicationId "com.starstorm.beer"
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+    }
+    buildTypes {
+        debug {
+            ext.enableCrashlytics = false
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-DEV'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.play_store_release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+repositories {
+    maven { url 'http://download.crashlytics.com/maven' }
+}
+
+dependencies {
+    compile files('libs/Parse-1.7.1.jar')
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'com.android.support:support-v13:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.jakewharton:butterknife:6.0.0'
+    compile 'com.squareup:otto:1.3.5'
+    compile 'com.facebook.rebound:rebound:0.3.6'
+    compile 'com.crashlytics.android:crashlytics:1.1.13'
+    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
+    compile project(':facebook')
+}

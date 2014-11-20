@@ -1,0 +1,110 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.starstorm.beer.fragment.YouFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/screen_padding">
+
+        <com.starstorm.beer.ui.FloatLabelLayout
+            android:id="@+id/username_label_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:floatLabelTextAppearance="@style/TextAppearance.StarStorm.FloatLabel">
+
+            <EditText
+                android:id="@+id/username_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:enabled="true"
+                android:hint="Username"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:singleLine="true">
+
+                <requestFocus/>
+            </EditText>
+        </com.starstorm.beer.ui.FloatLabelLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp"/>
+
+        <com.starstorm.beer.ui.FloatLabelLayout
+            android:id="@+id/password_label_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:floatLabelTextAppearance="@style/TextAppearance.StarStorm.FloatLabel">
+
+            <EditText
+                android:id="@+id/password_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:enabled="true"
+                android:hint="Password"
+                android:imeOptions="actionSend"
+                android:password="true"
+                android:singleLine="true">
+
+                <requestFocus/>
+            </EditText>
+        </com.starstorm.beer.ui.FloatLabelLayout>
+
+    </LinearLayout>
+
+
+    <com.dd.CircularProgressButton
+        android:id="@+id/facebook_login_button"
+        style="?android:buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:background="@color/facebook_blue"
+        android:textColor="@android:color/white"
+        app:cpb_colorIndicator="@color/facebook_blue"
+        app:cpb_selectorIdle="@color/facebook_button"
+        app:cpb_textComplete="Logged in"
+        app:cpb_textError="Login Error"
+        app:cpb_textIdle="Log In with Facebook"/>
+
+    <LinearLayout
+        style="?android:buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <com.dd.CircularProgressButton
+            android:id="@+id/login_button"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            app:cpb_colorIndicator="@color/facebook_blue"
+            app:cpb_textIdle="Log In"/>
+
+        <com.dd.CircularProgressButton
+            android:id="@+id/signup_button"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            app:cpb_colorIndicator="@color/facebook_blue"
+            app:cpb_textIdle="Sign Up"/>
+    </LinearLayout>
+</LinearLayout>

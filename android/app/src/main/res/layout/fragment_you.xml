@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:animateLayoutChanges="true"
+              android:padding="@dimen/screen_padding"
+              tools:context="com.starstorm.beer.fragment.YouFragment">
+
+    <TextView
+        android:id="@+id/username_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        style="?android:listSeparatorTextViewStyle"
+        tools:text="ronocod"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/screen_padding"/>
+
+
+    <com.starstorm.beer.ui.FloatLabelLayout
+        android:id="@+id/email_label_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:floatLabelTextAppearance="@style/TextAppearance.StarStorm.FloatLabel">
+
+        <EditText
+            android:id="@+id/email_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:enabled="true"
+            android:inputType="textEmailAddress"
+            android:hint="Email"
+            android:imeOptions="actionNext">
+
+            <requestFocus/>
+        </EditText>
+    </com.starstorm.beer.ui.FloatLabelLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/screen_padding"/>
+
+    <com.dd.CircularProgressButton
+        android:id="@+id/link_facebook_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Link with Facebook"
+        android:textColor="@android:color/white"
+        app:cpb_colorIndicator="@color/facebook_blue"
+        app:cpb_selectorIdle="@color/facebook_button"
+        app:cpb_textError="Error"
+        app:cpb_textIdle="Link with Facebook"/>
+
+    <TextView
+        android:id="@+id/facebook_login_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="(Just for login, we won't post anything)"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/screen_padding"/>
+
+    <com.dd.CircularProgressButton
+        android:id="@+id/save_user_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Save"
+        android:textColor="@android:color/white"
+        app:cpb_textError="Save Error"
+        app:cpb_textIdle="Save"/>
+</LinearLayout>

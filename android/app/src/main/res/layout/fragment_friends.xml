@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/friend_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/listitem_friend">
+
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        >
+
+        <EditText
+            android:id="@+id/add_friend_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:hint="Username"
+            android:inputType="text"
+            android:layout_weight="1"
+            tools:text="ronocod"/>
+
+        <Space
+            android:layout_width="24dp"
+            android:layout_height="match_parent"/>
+
+        <ImageButton
+            android:id="@+id/add_friend_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            style="?android:borderlessButtonStyle"
+            android:src="@drawable/ic_action_social_add_person"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+</LinearLayout>
