@@ -144,7 +144,7 @@ public class FacebookFriendsFragment extends BaseFragment {
 
     private void sendFriendRequest(final String username) {
         setMenuWhirrerVisible(true);
-        FriendService.sendFriendRequest(username, new FunctionCallback<Object>() {
+        FriendService.INSTANCE.sendFriendRequest(username, new FunctionCallback<Object>() {
             @Override
             public void done(Object o, ParseException e) {
                 setMenuWhirrerVisible(false);

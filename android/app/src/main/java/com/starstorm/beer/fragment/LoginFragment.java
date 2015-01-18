@@ -143,7 +143,7 @@ public class LoginFragment extends BaseFragment {
 
                         // Do something with value!
 
-                        UserService.changeUsername(newUsername, new FunctionCallback<String>() {
+                        UserService.INSTANCE.changeUsername(newUsername, new FunctionCallback<String>() {
                             @Override
                             public void done(String responseString, ParseException e) {
                                 if (e == null) {

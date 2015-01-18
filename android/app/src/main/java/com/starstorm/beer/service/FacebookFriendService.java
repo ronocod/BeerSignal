@@ -20,9 +20,11 @@ import bolts.Task;
 /**
  * Created by Conor on 16/10/2014.
  */
-public class FacebookFriendService {
+public enum FacebookFriendService {
 
-    public static void fetchFacebookFriendUsers(final Activity activity, final FindCallback<ParseUser> callback) {
+    INSTANCE;
+
+    public void fetchFacebookFriendUsers(final Activity activity, final FindCallback<ParseUser> callback) {
 
         if (ParseFacebookUtils.getSession().getPermissions().contains("user_friends")) {
             // we already have the permission
@@ -40,7 +42,7 @@ public class FacebookFriendService {
         }
     }
 
-    private static void performRequest(final FindCallback<ParseUser> callback) {
+    private void performRequest(final FindCallback<ParseUser> callback) {
         Request.newMyFriendsRequest(ParseFacebookUtils.getSession(), new Request.GraphUserListCallback() {
             @Override
             public void onCompleted(List<GraphUser> users, Response response) {

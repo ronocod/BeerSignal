@@ -105,7 +105,7 @@ public class FacebookFriendAdapter extends ParseQueryAdapter<ParseUser> {
     }
 
     private void sendFriendRequest(String username, final ViewHolder holder) {
-        FriendService.sendFriendRequest(username, new FunctionCallback<Object>() {
+        FriendService.INSTANCE.sendFriendRequest(username, new FunctionCallback<Object>() {
             @Override
             public void done(Object o, ParseException e) {
                 if (e == null) {

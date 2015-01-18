@@ -100,7 +100,7 @@ public class YouFragment extends BaseFragment {
 
                 // Do something with value!
 
-                UserService.changeUsername(newUsername, new FunctionCallback<String>() {
+                UserService.INSTANCE.changeUsername(newUsername, new FunctionCallback<String>() {
                     @Override
                     public void done(String responseString, ParseException e) {
                         progressDialog.dismiss();
@@ -154,7 +154,7 @@ public class YouFragment extends BaseFragment {
 
     private void logOut() {
         try {
-            AuthService.logOut();
+            AuthService.INSTANCE.logOut();
             Toaster.showShort(getActivity(), "Logged out");
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             getActivity().startActivity(intent);

@@ -138,7 +138,7 @@ public class FriendsFragment extends BaseFragment {
 
     private void sendUnfriendRequest(final ParseObject friendship) {
         setMenuWhirrerVisible(true);
-        FriendService.sendUnfriendRequest(friendship, new FunctionCallback<Object>() {
+        FriendService.INSTANCE.sendUnfriendRequest(friendship, new FunctionCallback<Object>() {
             @Override
             public void done(Object o, ParseException e) {
                 setMenuWhirrerVisible(false);
@@ -155,7 +155,7 @@ public class FriendsFragment extends BaseFragment {
 
     private void sendFriendRequest(final String username) {
         setMenuWhirrerVisible(true);
-        FriendService.sendFriendRequest(username, new FunctionCallback<Object>() {
+        FriendService.INSTANCE.sendFriendRequest(username, new FunctionCallback<Object>() {
             @Override
             public void done(Object o, ParseException e) {
                 setMenuWhirrerVisible(false);

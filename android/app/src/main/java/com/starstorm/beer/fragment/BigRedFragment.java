@@ -132,14 +132,14 @@ public class BigRedFragment extends BaseFragment {
         };
 
         if (mSendToAllCheckbox.isChecked()) {
-            SignalService.fireSignal(callback);
+            SignalService.INSTANCE.fireSignal(callback);
         } else {
             Set<String> objectIdSet = recipientAdapter.getRecipients().keySet();
             List<String> objectIds = new ArrayList<>(objectIdSet.size());
             for (String id : objectIdSet) {
                 objectIds.add(id);
             }
-            SignalService.fireSignal(objectIds, callback);
+            SignalService.INSTANCE.fireSignal(objectIds, callback);
         }
     }
 }

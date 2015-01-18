@@ -6,12 +6,12 @@ import com.parse.ParseUser;
 /**
  * Created by Conor on 18/10/2014.
  */
-public class AuthService {
+public enum AuthService {
+    INSTANCE;
 
-    public static void logOut() {
+    public void logOut() {
         ParseUser.logOut();
         ParseInstallation.getCurrentInstallation().remove("currentUser");
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
-
 }

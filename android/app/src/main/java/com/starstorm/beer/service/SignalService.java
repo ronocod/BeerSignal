@@ -10,15 +10,16 @@ import java.util.List;
 /**
  * Created by Conor on 16/10/2014.
  */
-public class SignalService {
+public enum SignalService {
+    INSTANCE;
 
-    private static long lastSignal;
+    private long lastSignal;
 
-    public static void fireSignal(FunctionCallback<Object> callback) {
+    public void fireSignal(FunctionCallback<Object> callback) {
         fireSignal(null, callback);
     }
 
-    public static void fireSignal(List<String> recipients, FunctionCallback<Object> callback) {
+    public void fireSignal(List<String> recipients, FunctionCallback<Object> callback) {
         long now = System.currentTimeMillis();
         if (now - lastSignal < 10 * 1000) {
             // no spamming - limit calls to 1 every 10 seconds
