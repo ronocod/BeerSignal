@@ -75,7 +75,7 @@ repositories {
 }
 
 dependencies {
-    compile files('libs/Parse-1.7.1.jar')
+    compile files('libs/Parse-1.8.1.jar')
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.android.support:support-v13:21.0.3'
     compile 'com.android.support:appcompat-v7:21.0.3'

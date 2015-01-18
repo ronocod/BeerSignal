@@ -297,6 +297,30 @@ public static final int <B>LOG_LEVEL_NONE</B></PRE>
 </TR>
 </TABLE>
 
+<A NAME="enableLocalDatastore(android.content.Context)"><!-- --></A><H3>
+enableLocalDatastore</H3>
+<PRE>
+public static void <B>enableLocalDatastore</B>(<A target="_top" HREF="http://developer.android.com/reference/android/content/Context.html?is-external=true" title="class or interface in android.content">Context</A>&nbsp;context)</PRE>
+<DL>
+<DD>Enable pinning in your application. This must be called before your application can use
+ pinning. You must invoke <code>Parse.enableLocalDatastore</code> before
+ <code>Parse.initialize</code>:
+
+ <pre>
+ public class MyApplication extends Application {
+   public void onCreate() {
+     Parse.enableLocalDatastore(this);
+     Parse.initialize(this, &quot;your application id&quot;, &quot;your client key&quot;);
+   }
+ }
+ </pre>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - The active Context for your application.</DL>
+</DD>
+</DL>
+<HR>
+
 <A NAME="initialize(android.content.Context, java.lang.String, java.lang.String)"><!-- --></A><H3>
 initialize</H3>
 <PRE>
@@ -324,31 +348,6 @@ public static void <B>initialize</B>(<A target="_top" HREF="http://developer.and
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>context</CODE> - The active Context for your application.<DD><CODE>applicationId</CODE> - The application id provided in the Parse dashboard.<DD><CODE>clientKey</CODE> - The client key provided in the Parse dashboard.</DL>
-</DD>
-</DL>
-<HR>
-
-<A NAME="enableLocalDatastore(android.content.Context)"><!-- --></A><H3>
-enableLocalDatastore</H3>
-<PRE>
-public static void <B>enableLocalDatastore</B>(<A target="_top" HREF="http://developer.android.com/reference/android/content/Context.html?is-external=true" title="class or interface in android.content">Context</A>&nbsp;context)</PRE>
-<DL>
-<DD>Enable pinning in your application. This must be called before your application can use
- pinning. The recommended way is to put a call to <code>Parse.enableLocalDatastore</code> in your
- <code>Application</code>'s <code>onCreate</code> method before <code>Parse.initialize</code>.
- An example:
-
- <pre>
- public class MyApplication extends Application {
-   public void onCreate() {
-     Parse.enableLocalDatastore(this);
-     Parse.initialize(this, &quot;your application id&quot;, &quot;your client key&quot;);
-   }
- }
- </pre>
-<P>
-<DD><DL>
-<DT><B>Parameters:</B><DD><CODE>context</CODE> - The active Context for your application.</DL>
 </DD>
 </DL>
 <HR>

@@ -375,6 +375,26 @@ public <B>ParseACL</B>(<A HREF="../../com/parse/ParseUser.html" title="class in 
 </TR>
 </TABLE>
 
+<A NAME="setDefaultACL(com.parse.ParseACL, boolean)"><!-- --></A><H3>
+setDefaultACL</H3>
+<PRE>
+public static void <B>setDefaultACL</B>(<A HREF="../../com/parse/ParseACL.html" title="class in com.parse">ParseACL</A>&nbsp;acl,
+                                 boolean&nbsp;withAccessForCurrentUser)</PRE>
+<DL>
+<DD>Sets a default ACL that will be applied to all <A HREF="../../com/parse/ParseObject.html" title="class in com.parse"><CODE>ParseObject</CODE></A>s when they are created.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>acl</CODE> - The ACL to use as a template for all <A HREF="../../com/parse/ParseObject.html" title="class in com.parse"><CODE>ParseObject</CODE></A>s created after setDefaultACL
+          has been called. This value will be copied and used as a template for the creation of
+          new ACLs, so changes to the instance after setDefaultACL() has been called will not be
+          reflected in new <A HREF="../../com/parse/ParseObject.html" title="class in com.parse"><CODE>ParseObject</CODE></A>s.<DD><CODE>withAccessForCurrentUser</CODE> - If true, the ParseACL that is applied to newly-created <A HREF="../../com/parse/ParseObject.html" title="class in com.parse"><CODE>ParseObject</CODE></A>s will
+          provide read and write access to the <A HREF="../../com/parse/ParseUser.html#getCurrentUser()"><CODE>ParseUser.getCurrentUser()</CODE></A> at the time of
+          creation. If false, the provided ACL will be used without modification. If acl is
+          null, this value is ignored.</DL>
+</DD>
+</DL>
+<HR>
+
 <A NAME="setPublicReadAccess(boolean)"><!-- --></A><H3>
 setPublicReadAccess</H3>
 <PRE>
@@ -665,26 +685,6 @@ public void <B>setRoleWriteAccess</B>(<A HREF="../../com/parse/ParseRole.html" t
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>role</CODE> - The role to assign access.<DD><CODE>allowed</CODE> - Whether the given role can write this object.</DL>
-</DD>
-</DL>
-<HR>
-
-<A NAME="setDefaultACL(com.parse.ParseACL, boolean)"><!-- --></A><H3>
-setDefaultACL</H3>
-<PRE>
-public static void <B>setDefaultACL</B>(<A HREF="../../com/parse/ParseACL.html" title="class in com.parse">ParseACL</A>&nbsp;acl,
-                                 boolean&nbsp;withAccessForCurrentUser)</PRE>
-<DL>
-<DD>Sets a default ACL that will be applied to all <A HREF="../../com/parse/ParseObject.html" title="class in com.parse"><CODE>ParseObject</CODE></A>s when they are created.
-<P>
-<DD><DL>
-<DT><B>Parameters:</B><DD><CODE>acl</CODE> - The ACL to use as a template for all <A HREF="../../com/parse/ParseObject.html" title="class in com.parse"><CODE>ParseObject</CODE></A>s created after setDefaultACL
-          has been called. This value will be copied and used as a template for the creation of
-          new ACLs, so changes to the instance after setDefaultACL() has been called will not be
-          reflected in new <A HREF="../../com/parse/ParseObject.html" title="class in com.parse"><CODE>ParseObject</CODE></A>s.<DD><CODE>withAccessForCurrentUser</CODE> - If true, the ParseACL that is applied to newly-created <A HREF="../../com/parse/ParseObject.html" title="class in com.parse"><CODE>ParseObject</CODE></A>s will
-          provide read and write access to the <A HREF="../../com/parse/ParseUser.html#getCurrentUser()"><CODE>ParseUser.getCurrentUser()</CODE></A> at the time of
-          creation. If false, the provided ACL will be used without modification. If acl is
-          null, this value is ignored.</DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->

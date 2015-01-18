@@ -499,20 +499,16 @@ Static method in class com.parse.<A HREF="./com/parse/ParseInstallation.html" ti
 <DD>&nbsp;
 <DT><A HREF="./com/parse/ParseGeoPoint.html#getCurrentLocationInBackground(long)"><B>getCurrentLocationInBackground(long)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseGeoPoint.html" title="class in com.parse">ParseGeoPoint</A>
-<DD>Fetches the user's current location and returns a new ParseGeoPoint via the provided
- LocationCallback.
+<DD>Asynchronously fetches the current location of the device.
 <DT><A HREF="./com/parse/ParseGeoPoint.html#getCurrentLocationInBackground(long, com.parse.LocationCallback)"><B>getCurrentLocationInBackground(long, LocationCallback)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseGeoPoint.html" title="class in com.parse">ParseGeoPoint</A>
-<DD>Fetches the user's current location and returns a new ParseGeoPoint via the provided
- LocationCallback.
+<DD>Asynchronously fetches the current location of the device.
 <DT><A HREF="./com/parse/ParseGeoPoint.html#getCurrentLocationInBackground(long, android.location.Criteria)"><B>getCurrentLocationInBackground(long, Criteria)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseGeoPoint.html" title="class in com.parse">ParseGeoPoint</A>
-<DD>Fetches the user's current location and returns a new ParseGeoPoint via the provided
- LocationCallback.
+<DD>Asynchronously fetches the current location of the device.
 <DT><A HREF="./com/parse/ParseGeoPoint.html#getCurrentLocationInBackground(long, android.location.Criteria, com.parse.LocationCallback)"><B>getCurrentLocationInBackground(long, Criteria, LocationCallback)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseGeoPoint.html" title="class in com.parse">ParseGeoPoint</A>
-<DD>Fetches the user's current location and returns a new ParseGeoPoint via the provided
- LocationCallback.
+<DD>Asynchronously fetches the current location of the device.
 <DT><A HREF="./com/parse/ParseUser.html#getCurrentUser()"><B>getCurrentUser()</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseUser.html" title="class in com.parse">ParseUser</A>
 <DD>This retrieves the currently logged in ParseUser with a valid session, either from memory or
@@ -732,7 +728,7 @@ Method in class com.parse.<A HREF="./com/parse/ParseACL.html" title="class in co
 <DD>Set whether the public is allowed to write this object.
 <DT><A HREF="./com/parse/ParseInstallation.html#getQuery()"><B>getQuery()</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseInstallation.html" title="class in com.parse">ParseInstallation</A>
-<DD>Constructs a query for ParseInstallations.
+<DD><B>Deprecated.</B>&nbsp;<I>Please use <A HREF="./com/parse/ParseQuery.html#getQuery(java.lang.Class)"><CODE>ParseQuery.getQuery(Class)</CODE></A>.</I>
 <DT><A HREF="./com/parse/ParseQuery.html#getQuery(java.lang.Class)"><B>getQuery(Class&lt;T&gt;)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseQuery.html" title="class in com.parse">ParseQuery</A>
 <DD>Creates a new query for the given ParseObject subclass type.
@@ -747,7 +743,7 @@ Static method in class com.parse.<A HREF="./com/parse/ParseRole.html" title="cla
 <DD>Gets a <A HREF="./com/parse/ParseQuery.html" title="class in com.parse"><CODE>ParseQuery</CODE></A> over the Role collection.
 <DT><A HREF="./com/parse/ParseUser.html#getQuery()"><B>getQuery()</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseUser.html" title="class in com.parse">ParseUser</A>
-<DD>Constructs a query for ParseUsers.
+<DD><B>Deprecated.</B>&nbsp;<I>Please use <A HREF="./com/parse/ParseQuery.html#getQuery(java.lang.Class)"><CODE>ParseQuery.getQuery(Class)</CODE></A>.</I>
 <DT><A HREF="./com/parse/ParseACL.html#getReadAccess(java.lang.String)"><B>getReadAccess(String)</B></A> - 
 Method in class com.parse.<A HREF="./com/parse/ParseACL.html" title="class in com.parse">ParseACL</A>
 <DD>Get whether the given user id is *explicitly* allowed to read this object.
@@ -868,12 +864,9 @@ Method in class com.parse.<A HREF="./com/parse/ParseObject.html" title="class in
 <DT><A HREF="./com/parse/Parse.html#initialize(android.content.Context, java.lang.String, java.lang.String)"><B>initialize(Context, String, String)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/Parse.html" title="class in com.parse">Parse</A>
 <DD>Authenticates this client as belonging to your application.
-<DT><A HREF="./com/parse/ParseFacebookUtils.html#initialize()"><B>initialize()</B></A> - 
-Static method in class com.parse.<A HREF="./com/parse/ParseFacebookUtils.html" title="class in com.parse">ParseFacebookUtils</A>
-<DD>&nbsp;
 <DT><A HREF="./com/parse/ParseFacebookUtils.html#initialize(java.lang.String)"><B>initialize(String)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseFacebookUtils.html" title="class in com.parse">ParseFacebookUtils</A>
-<DD>Initializes Facebook for use with Parse.
+<DD>Initializes Facebook with a custom <code>appId</code> for use with Parse.
 <DT><A HREF="./com/parse/ParseTwitterUtils.html#initialize(java.lang.String, java.lang.String)"><B>initialize(String, String)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseTwitterUtils.html" title="class in com.parse">ParseTwitterUtils</A>
 <DD>Initializes Twitter for use with Parse.
@@ -1430,6 +1423,9 @@ Method in class com.parse.<A HREF="./com/parse/ParseObject.html" title="class in
 <DT><A HREF="./com/parse/ParseQueryAdapter.html#removeOnQueryLoadListener(com.parse.ParseQueryAdapter.OnQueryLoadListener)"><B>removeOnQueryLoadListener(ParseQueryAdapter.OnQueryLoadListener&lt;T&gt;)</B></A> - 
 Method in class com.parse.<A HREF="./com/parse/ParseQueryAdapter.html" title="class in com.parse">ParseQueryAdapter</A>
 <DD>&nbsp;
+<DT><A HREF="./com/parse/ParseException.html#REQUEST_LIMIT_EXCEEDED"><B>REQUEST_LIMIT_EXCEEDED</B></A> - 
+Static variable in exception com.parse.<A HREF="./com/parse/ParseException.html" title="class in com.parse">ParseException</A>
+<DD>Error code indicating that the application has exceeded its analytics request limit.
 <DT><A HREF="./com/parse/ParseUser.html#requestPasswordReset(java.lang.String)"><B>requestPasswordReset(String)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseUser.html" title="class in com.parse">ParseUser</A>
 <DD>Requests a password reset email to be sent to the specified email address associated with the
@@ -1720,6 +1716,9 @@ Static variable in exception com.parse.<A HREF="./com/parse/ParseException.html"
 <DD>Error code indicating that the request timed out on the server.
 <DT><A HREF="./com/parse/ParseConfig.html#toString()"><B>toString()</B></A> - 
 Method in class com.parse.<A HREF="./com/parse/ParseConfig.html" title="class in com.parse">ParseConfig</A>
+<DD>&nbsp;
+<DT><A HREF="./com/parse/ParseGeoPoint.html#toString()"><B>toString()</B></A> - 
+Method in class com.parse.<A HREF="./com/parse/ParseGeoPoint.html" title="class in com.parse">ParseGeoPoint</A>
 <DD>&nbsp;
 <DT><A HREF="./com/parse/ParseAnalytics.html#trackAppOpened(android.content.Intent)"><B>trackAppOpened(Intent)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseAnalytics.html" title="class in com.parse">ParseAnalytics</A>

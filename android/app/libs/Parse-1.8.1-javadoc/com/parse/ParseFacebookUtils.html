@@ -99,6 +99,8 @@ Class ParseFacebookUtils</H2>
 
 <P>
 Provides a set of utilities for using Parse with Facebook.
+
+ To use <code>ParseFacebookUtils</code>, you must add the Facebook Android SDK to your project.
 <P>
 
 <P>
@@ -163,7 +165,7 @@ Provides a set of utilities for using Parse with Facebook.
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;com.facebook.android.Facebook</CODE></FONT></TD>
+<CODE>static&nbsp;Facebook</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../com/parse/ParseFacebookUtils.html#getFacebook()">getFacebook</A></B>()</CODE>
 
 <BR>
@@ -171,16 +173,8 @@ Provides a set of utilities for using Parse with Facebook.
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;com.facebook.Session</CODE></FONT></TD>
+<CODE>static&nbsp;Session</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../com/parse/ParseFacebookUtils.html#getSession()">getSession</A></B>()</CODE>
-
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>protected static&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../com/parse/ParseFacebookUtils.html#initialize()">initialize</A></B>()</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
@@ -191,7 +185,7 @@ Provides a set of utilities for using Parse with Facebook.
 <TD><CODE><B><A HREF="../../com/parse/ParseFacebookUtils.html#initialize(java.lang.String)">initialize</A></B>(<A target="_top" HREF="http://developer.android.com/reference/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;appId)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initializes Facebook for use with Parse.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initializes Facebook with a custom <code>appId</code> for use with Parse.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -541,7 +535,7 @@ protected static com.parse.FacebookAuthenticationProvider <B>provider</B></PRE>
 getFacebook</H3>
 <PRE>
 <FONT SIZE="-1"><A target="_top" HREF="http://developer.android.com/reference/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</A>
-</FONT>public static com.facebook.android.Facebook <B>getFacebook</B>()</PRE>
+</FONT>public static Facebook <B>getFacebook</B>()</PRE>
 <DL>
 <DD><B>Deprecated.</B>&nbsp;<I>Please use <A HREF="../../com/parse/ParseFacebookUtils.html#getSession()"><CODE>ParseFacebookUtils.getSession()</CODE></A> and related Facebook SDK 3.0+ APIs instead.</I>
 <P>
@@ -554,7 +548,7 @@ getFacebook</H3>
 <A NAME="getSession()"><!-- --></A><H3>
 getSession</H3>
 <PRE>
-public static com.facebook.Session <B>getSession</B>()</PRE>
+public static Session <B>getSession</B>()</PRE>
 <DL>
 <DD><DL>
 
@@ -576,30 +570,16 @@ public static boolean <B>isLinked</B>(<A HREF="../../com/parse/ParseUser.html" t
 </DL>
 <HR>
 
-<A NAME="initialize()"><!-- --></A><H3>
-initialize</H3>
-<PRE>
-protected static void <B>initialize</B>()</PRE>
-<DL>
-<DD><DL>
-</DL>
-</DD>
-</DL>
-<HR>
-
 <A NAME="initialize(java.lang.String)"><!-- --></A><H3>
 initialize</H3>
 <PRE>
 public static void <B>initialize</B>(<A target="_top" HREF="http://developer.android.com/reference/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;appId)</PRE>
 <DL>
-<DD>Initializes Facebook for use with Parse. Here, you can provide the set of permissions that will
- be used when accessing Facebook, and toggle whether Facebook's single sign-on feature should be
- used when calling <A HREF="../../com/parse/ParseFacebookUtils.html#logIn(android.app.Activity, int, com.parse.LogInCallback)"><CODE>ParseFacebookUtils.logIn(Activity, int, LogInCallback)</CODE></A> or
- <A HREF="../../com/parse/ParseFacebookUtils.html#link(com.parse.ParseUser, android.app.Activity, int, com.parse.SaveCallback)"><CODE>ParseFacebookUtils.link(ParseUser, Activity, int, SaveCallback)</CODE></A>. You may invoke this method more than
- once if you need to change the appId.
- <p />
- If this method is not called explicitly before using ParseFacebookUtils then the value of
- com.facebook.sdk.ApplicationId from the manifest metadata will be used automatically.
+<DD>Initializes Facebook with a custom <code>appId</code> for use with Parse.
+
+ This method is only required if you intend to use a different <code>appId</code> than is defined by
+ <code>com.facebook.sdk.ApplicationId</code> in your <code>AndroidManifest.xml</code>. You may also invoke
+ this method more than once if you need to change the appId.
  <p />
  <b>IMPORTANT:</b> If you choose to enable single sign-on, you must override the
  <A target="_top" HREF="http://developer.android.com/reference/android/app/Activity.html?is-external=true#onActivityResult(int, int, android.content.Intent)" title="class or interface in android.app"><CODE>Activity.onActivityResult(int, int, android.content.Intent)</CODE></A> method to invoke

@@ -980,7 +980,7 @@ public void <B>setCachePolicy</B>(<A HREF="../../com/parse/ParseQuery.CachePolic
 <DL>
 <DD>Change the caching policy of this query.
 
- Not allowed when Pinning is enabled.
+ Unsupported when Local Datastore is enabled.
 <P>
 <DD><DL>
 <DT><B>See Also:</B><DD><A HREF="../../com/parse/ParseQuery.html#fromLocalDatastore()"><CODE>ParseQuery.fromLocalDatastore()</CODE></A>, 
@@ -1010,7 +1010,7 @@ public <A HREF="../../com/parse/ParseQuery.html" title="class in com.parse">Pars
 <DL>
 <DD>Change the source of this query to all pinned objects.
 
- Requires Pinning to be enabled.
+ Requires Local Datastore to be enabled.
 <P>
 <DD><DL>
 <DT><B>See Also:</B><DD><A HREF="../../com/parse/ParseQuery.html#setCachePolicy(com.parse.ParseQuery.CachePolicy)"><CODE>ParseQuery.setCachePolicy(CachePolicy)</CODE></A></DL>
@@ -1025,7 +1025,7 @@ public <A HREF="../../com/parse/ParseQuery.html" title="class in com.parse">Pars
 <DL>
 <DD>Change the source of this query to the default group of pinned objects.
 
- Requires Pinning to be enabled.
+ Requires Local Datastore to be enabled.
 <P>
 <DD><DL>
 
@@ -1042,7 +1042,7 @@ public <A HREF="../../com/parse/ParseQuery.html" title="class in com.parse">Pars
 <DL>
 <DD>Change the source of this query to a specific group of pinned objects.
 
- Requires Pinning to be enabled.
+ Requires Local Datastore to be enabled.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>name</CODE> - the pinned group
