@@ -25,6 +25,8 @@ import com.parse.SaveCallback;
 import com.starstorm.beer.R;
 import com.starstorm.beer.activity.LoginActivity;
 import com.starstorm.beer.service.AuthService;
+import com.starstorm.beer.service.ParseAuthService;
+import com.starstorm.beer.service.ParseUserService;
 import com.starstorm.beer.service.UserService;
 import com.starstorm.beer.util.FacebookHelper;
 import com.starstorm.beer.util.Toaster;
@@ -38,6 +40,8 @@ import butterknife.InjectView;
 public class YouFragment extends BaseFragment {
 
     private static final String TAG = YouFragment.class.getSimpleName();
+    private final AuthService authService = ParseAuthService.INSTANCE;
+    private final UserService userService = ParseUserService.INSTANCE;
 
     @InjectView(R.id.username_text)
     TextView mUsernameText;
@@ -100,7 +104,7 @@ public class YouFragment extends BaseFragment {
 
                 // Do something with value!
 
-                UserService.INSTANCE.changeUsername(newUsername, new FunctionCallback<String>() {
+                userService.changeUsername(newUsername, new FunctionCallback<String>() {
                     @Override
                     public void done(String responseString, ParseException e) {
                         progressDialog.dismiss();
@@ -154,7 +158,7 @@ public class YouFragment extends BaseFragment {
 
     private void logOut() {
         try {
-            AuthService.INSTANCE.logOut();
+            authService.logOut();
             Toaster.showShort(getActivity(), "Logged out");
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             getActivity().startActivity(intent);

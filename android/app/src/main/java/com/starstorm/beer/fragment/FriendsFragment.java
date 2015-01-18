@@ -22,6 +22,7 @@ import com.parse.ParseQueryAdapter;
 import com.starstorm.beer.R;
 import com.starstorm.beer.adapter.FriendAdapter;
 import com.starstorm.beer.service.FriendService;
+import com.starstorm.beer.service.ParseFriendService;
 import com.starstorm.beer.util.Toaster;
 
 import java.util.List;
@@ -38,6 +39,7 @@ import butterknife.InjectView;
 public class FriendsFragment extends BaseFragment {
 
     static final String TAG = FriendsFragment.class.getSimpleName();
+    private final FriendService friendService = ParseFriendService.INSTANCE;
 
     @InjectView(R.id.swipe_container)
     SwipeRefreshLayout mSwipeLayout;
@@ -138,7 +140,7 @@ public class FriendsFragment extends BaseFragment {
 
     private void sendUnfriendRequest(final ParseObject friendship) {
         setMenuWhirrerVisible(true);
-        FriendService.INSTANCE.sendUnfriendRequest(friendship, new FunctionCallback<Object>() {
+        friendService.sendUnfriendRequest(friendship, new FunctionCallback<Object>() {
             @Override
             public void done(Object o, ParseException e) {
                 setMenuWhirrerVisible(false);
@@ -155,7 +157,7 @@ public class FriendsFragment extends BaseFragment {
 
     private void sendFriendRequest(final String username) {
         setMenuWhirrerVisible(true);
-        FriendService.INSTANCE.sendFriendRequest(username, new FunctionCallback<Object>() {
+        friendService.sendFriendRequest(username, new FunctionCallback<Object>() {
             @Override
             public void done(Object o, ParseException e) {
                 setMenuWhirrerVisible(false);

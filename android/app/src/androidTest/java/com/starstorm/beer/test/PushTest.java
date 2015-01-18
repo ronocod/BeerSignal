@@ -9,6 +9,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.starstorm.beer.BeerApplication;
 import com.starstorm.beer.service.AuthService;
+import com.starstorm.beer.service.ParseAuthService;
+import com.starstorm.beer.service.ParseSignalService;
 import com.starstorm.beer.service.SignalService;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 public class PushTest extends ApplicationTestCase<BeerApplication> {
 
     private static final String TAG = PushTest.class.getSimpleName();
+    private final AuthService authService = ParseAuthService.INSTANCE;
+    private final SignalService signalService = ParseSignalService.INSTANCE;
 
     public PushTest() {
         super(BeerApplication.class);
@@ -39,7 +43,7 @@ public class PushTest extends ApplicationTestCase<BeerApplication> {
         ArrayList<String> recipients = new ArrayList<>();
         final String testRecipientUsername = ""; // Enter your test user's username
         recipients.add(testRecipientUsername);
-        SignalService.fireSignal(recipients, new FunctionCallback<Object>() {
+        signalService.fireSignal(recipients, new FunctionCallback<Object>() {
             @Override
             public void done(Object o, ParseException e) {
                 Log.d(TAG, "Sent");
@@ -50,7 +54,7 @@ public class PushTest extends ApplicationTestCase<BeerApplication> {
 
     @Override
     public void tearDown() throws Exception {
-        AuthService.logOut();
+        authService.logOut();
         Log.d(TAG, "tearDown complete");
     }
 }

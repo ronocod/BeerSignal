@@ -3,7 +3,6 @@ package com.starstorm.beer.util;
 import com.starstorm.beer.BuildConfig;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Conor on 17/09/2014.

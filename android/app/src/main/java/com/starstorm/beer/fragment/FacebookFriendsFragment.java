@@ -22,6 +22,7 @@ import com.parse.ParseUser;
 import com.starstorm.beer.R;
 import com.starstorm.beer.adapter.FacebookFriendAdapter;
 import com.starstorm.beer.service.FriendService;
+import com.starstorm.beer.service.ParseFriendService;
 import com.starstorm.beer.util.Toaster;
 
 import java.util.Arrays;
@@ -41,6 +42,7 @@ import butterknife.InjectView;
 public class FacebookFriendsFragment extends BaseFragment {
 
     static final String TAG = FacebookFriendsFragment.class.getSimpleName();
+    private final FriendService friendService = ParseFriendService.INSTANCE;
 
     @InjectView(R.id.swipe_container)
     SwipeRefreshLayout mSwipeLayout;
@@ -144,7 +146,7 @@ public class FacebookFriendsFragment extends BaseFragment {
 
     private void sendFriendRequest(final String username) {
         setMenuWhirrerVisible(true);
-        FriendService.INSTANCE.sendFriendRequest(username, new FunctionCallback<Object>() {
+        friendService.sendFriendRequest(username, new FunctionCallback<Object>() {
             @Override
             public void done(Object o, ParseException e) {
                 setMenuWhirrerVisible(false);

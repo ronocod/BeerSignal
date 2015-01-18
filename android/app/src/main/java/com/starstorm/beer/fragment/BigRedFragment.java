@@ -17,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 import com.starstorm.beer.R;
 import com.starstorm.beer.adapter.RecipientAdapter;
+import com.starstorm.beer.service.ParseSignalService;
 import com.starstorm.beer.service.SignalService;
 import com.starstorm.beer.util.Toaster;
 
@@ -28,6 +29,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class BigRedFragment extends BaseFragment {
+
+    private final SignalService signalService = ParseSignalService.INSTANCE;
 
     @InjectView(R.id.big_red_button)
     ImageButton mBigRedButton;
@@ -132,14 +135,14 @@ public class BigRedFragment extends BaseFragment {
         };
 
         if (mSendToAllCheckbox.isChecked()) {
-            SignalService.INSTANCE.fireSignal(callback);
+            signalService.fireSignal(callback);
         } else {
             Set<String> objectIdSet = recipientAdapter.getRecipients().keySet();
             List<String> objectIds = new ArrayList<>(objectIdSet.size());
             for (String id : objectIdSet) {
                 objectIds.add(id);
             }
-            SignalService.INSTANCE.fireSignal(objectIds, callback);
+            signalService.fireSignal(objectIds, callback);
         }
     }
 }

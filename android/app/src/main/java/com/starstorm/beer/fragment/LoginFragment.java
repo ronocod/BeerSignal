@@ -22,6 +22,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.starstorm.beer.R;
 import com.starstorm.beer.activity.MainActivity;
+import com.starstorm.beer.service.ParseUserService;
 import com.starstorm.beer.service.UserService;
 import com.starstorm.beer.util.FacebookHelper;
 import com.starstorm.beer.util.Toaster;
@@ -32,6 +33,7 @@ import butterknife.InjectView;
 public class LoginFragment extends BaseFragment {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
+    private final UserService userService = ParseUserService.INSTANCE;
 
     @InjectView(R.id.username_field)
     EditText mUsernameField;
@@ -143,7 +145,7 @@ public class LoginFragment extends BaseFragment {
 
                         // Do something with value!
 
-                        UserService.INSTANCE.changeUsername(newUsername, new FunctionCallback<String>() {
+                        userService.changeUsername(newUsername, new FunctionCallback<String>() {
                             @Override
                             public void done(String responseString, ParseException e) {
                                 if (e == null) {
