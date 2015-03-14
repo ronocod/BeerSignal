@@ -47,7 +47,7 @@ public enum class ParseFacebookService {
                     return
                 }
                 val friendsList = ArrayList<Long>()
-                for (user in users!!) {
+                for (user in users) {
                     friendsList.add(java.lang.Long.valueOf(user.getId()))
                 }
 

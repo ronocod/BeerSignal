@@ -104,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
                     return youFragment;
                 case 1:
                     if (bigRedFragment == null) {
-                        bigRedFragment = BigRedFragment.newInstance();
+                        bigRedFragment = BigRedFragment.OBJECT$.newInstance();
                     }
                     return bigRedFragment;
                 case 2:

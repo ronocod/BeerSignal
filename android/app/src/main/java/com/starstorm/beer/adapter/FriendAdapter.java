@@ -17,7 +17,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.starstorm.beer.R;
-import com.starstorm.beer.util.ParseHelper;
+import com.starstorm.beer.util.UtilPackage;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -99,7 +99,7 @@ public class FriendAdapter extends ParseQueryAdapter<ParseObject> {
     }
 
     private void acceptFriendRequest(String friendshipId, final ViewHolder holder) {
-        HashMap<String, Object> params = ParseHelper.getDefaultParams();
+        HashMap<String, Object> params = UtilPackage.getDefaultParams();
         params.put("friendshipId", friendshipId);
         ParseCloud.callFunctionInBackground("acceptfriendrequest", params, new FunctionCallback<Object>() {
             @Override
