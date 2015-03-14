@@ -1,6 +1,7 @@
 package com.starstorm.beer.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.crashlytics.android.Crashlytics;
+import com.novoda.notils.caster.Views;
 import com.parse.FunctionCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -25,26 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 public class BigRedFragment extends Fragment {
 
     private final ParseSignalService signalService = ParseSignalService.INSTANCE;
 
-    @InjectView(R.id.big_red_button)
-    ImageButton mBigRedButton;
-
-    @InjectView(R.id.send_to_all_checkbox)
-    CheckBox mSendToAllCheckbox;
-
-    @InjectView(R.id.recipient_listview)
-    ListView mRecipientListView;
-
-    @InjectView(R.id.swipe_container)
-    SwipeRefreshLayout mSwipeLayout;
-
-    RecipientAdapter recipientAdapter;
+    private CheckBox sendToAllCheckbox;
+    private SwipeRefreshLayout swipeLayout;
+    private RecipientAdapter recipientAdapter;
+    private ProgressDialog progressDialog;
 
     public static BigRedFragment newInstance() {
         return new BigRedFragment();
@@ -71,9 +61,11 @@ public class BigRedFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.inject(this, view);
+        swipeLayout = Views.findById(view, R.id.swipe_container);
+        sendToAllCheckbox = Views.findById(view, R.id.send_to_all_checkbox);
 
-        mRecipientListView.setAdapter(recipientAdapter);
+        ListView recipientListView = Views.findById(view, R.id.recipient_listview);
+        recipientListView.setAdapter(recipientAdapter);
         recipientAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseObject>() {
             @Override
             public void onLoading() {
@@ -81,36 +73,36 @@ public class BigRedFragment extends Fragment {
 
             @Override
             public void onLoaded(List<ParseObject> parseUsers, Exception e) {
-                if (getActivity() != null && mSwipeLayout != null) {
-                    mSwipeLayout.setRefreshing(false);
+                if (getActivity() != null && swipeLayout != null) {
+                    swipeLayout.setRefreshing(false);
                 }
             }
         });
 
-        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 recipientAdapter.loadObjects();
             }
         });
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-
-        mSendToAllCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        sendToAllCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if (checked) {
-                    mSwipeLayout.setVisibility(View.GONE);
+                    swipeLayout.setVisibility(View.GONE);
                 } else {
-                    mSwipeLayout.setVisibility(View.VISIBLE);
+                    swipeLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
 
-        mBigRedButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton bigRedButton = Views.findById(view, R.id.big_red_button);
+        bigRedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fireSignal();
@@ -134,7 +126,7 @@ public class BigRedFragment extends Fragment {
             }
         };
 
-        if (mSendToAllCheckbox.isChecked()) {
+        if (sendToAllCheckbox.isChecked()) {
             signalService.fireSignal(callback);
         } else {
             Set<String> objectIdSet = recipientAdapter.getRecipients().keySet();
@@ -143,6 +135,15 @@ public class BigRedFragment extends Fragment {
                 objectIds.add(id);
             }
             signalService.fireSignal(objectIds, callback);
+        }
+    }
+
+    private void setMenuWhirrerVisible(boolean visible) {
+        if (visible) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.show();
+        } else {
+            progressDialog.hide();
         }
     }
 }

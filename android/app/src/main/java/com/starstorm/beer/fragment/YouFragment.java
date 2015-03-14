@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.dd.CircularProgressButton;
+import com.novoda.notils.caster.Views;
 import com.parse.FunctionCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -33,25 +34,17 @@ import com.starstorm.beer.util.Toaster;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 public class YouFragment extends Fragment {
 
     private static final String TAG = YouFragment.class.getSimpleName();
     private final ParseAuthService authService = ParseAuthService.INSTANCE;
     private final ParseUserService userService = ParseUserService.INSTANCE;
 
-    @InjectView(R.id.username_text)
-    TextView mUsernameText;
-    @InjectView(R.id.email_field)
-    EditText mEmailField;
-    @InjectView(R.id.link_facebook_button)
-    CircularProgressButton mLinkFacebookButton;
-    @InjectView(R.id.facebook_login_note)
-    TextView mFacebookLoginNote;
-    @InjectView(R.id.save_user_button)
-    CircularProgressButton mSaveUserButton;
+    private TextView usernameText;
+    private EditText emailField;
+    private CircularProgressButton linkFacebookButton;
+    private TextView facebookLoginNote;
+    private CircularProgressButton saveUserButton;
 
     public static YouFragment newInstance() {
         return new YouFragment();
@@ -147,10 +140,14 @@ public class YouFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.inject(this, view);
+        usernameText = Views.findById(view, R.id.username_text);
+        emailField = Views.findById(view, R.id.email_field);
+        linkFacebookButton = Views.findById(view, R.id.link_facebook_button);
+        facebookLoginNote = Views.findById(view, R.id.facebook_login_note);
+        saveUserButton = Views.findById(view, R.id.save_user_button);
 
-        mLinkFacebookButton.setIndeterminateProgressMode(true);
-        mSaveUserButton.setIndeterminateProgressMode(true);
+        linkFacebookButton.setIndeterminateProgressMode(true);
+        saveUserButton.setIndeterminateProgressMode(true);
 
         showLoggedInDetails();
     }
@@ -170,10 +167,10 @@ public class YouFragment extends Fragment {
 
     private void showLoggedInDetails() {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        mUsernameText.setText(currentUser.getUsername());
-        mEmailField.setText(currentUser.getEmail());
+        usernameText.setText(currentUser.getUsername());
+        emailField.setText(currentUser.getEmail());
 
-        mSaveUserButton.setOnClickListener(new View.OnClickListener() {
+        saveUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveUser();
@@ -183,32 +180,32 @@ public class YouFragment extends Fragment {
         boolean isFacebookLinked = ParseFacebookUtils.isLinked(currentUser);
 
         if (isFacebookLinked) {
-            mFacebookLoginNote.setVisibility(View.GONE);
-            mLinkFacebookButton.setIdleText("Linked to Facebook");
-            mLinkFacebookButton.setText("Linked to Facebook");
-            mLinkFacebookButton.setOnClickListener(null);
+            facebookLoginNote.setVisibility(View.GONE);
+            linkFacebookButton.setIdleText("Linked to Facebook");
+            linkFacebookButton.setText("Linked to Facebook");
+            linkFacebookButton.setOnClickListener(null);
         } else {
-            mFacebookLoginNote.setVisibility(View.VISIBLE);
-            mLinkFacebookButton.setIdleText("Link to Facebook");
+            facebookLoginNote.setVisibility(View.VISIBLE);
+            linkFacebookButton.setIdleText("Link to Facebook");
 
-            mLinkFacebookButton.setOnClickListener(new View.OnClickListener() {
+            linkFacebookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mLinkFacebookButton.setProgress(1);
+                    linkFacebookButton.setProgress(1);
                     final ParseUser currentUser = ParseUser.getCurrentUser();
                     List<String> permissions = Arrays.asList("email");
                     ParseFacebookUtils.link(currentUser, permissions, getActivity(), new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                mLinkFacebookButton.setIdleText("Linked to Facebook");
-                                mLinkFacebookButton.setText("Linked to Facebook");
+                                linkFacebookButton.setIdleText("Linked to Facebook");
+                                linkFacebookButton.setText("Linked to Facebook");
                                 FacebookHelper.getFacebookIdInBackground();
                             } else {
                                 Log.e(TAG, e.getMessage());
                                 Crashlytics.logException(e);
                             }
-                            mLinkFacebookButton.setProgress(0);
+                            linkFacebookButton.setProgress(0);
                         }
                     });
                 }
@@ -217,20 +214,20 @@ public class YouFragment extends Fragment {
     }
 
     private void saveUser() {
-        mSaveUserButton.setProgress(1);
-        ParseUser.getCurrentUser().setEmail(mEmailField.getText().toString());
+        saveUserButton.setProgress(1);
+        ParseUser.getCurrentUser().setEmail(emailField.getText().toString());
 
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    mSaveUserButton.setProgress(0);
+                    saveUserButton.setProgress(0);
                     Toaster.showShort(getActivity(), "Your settings have been updated");
                 } else {
                     Log.e(TAG, e.getMessage());
                     Crashlytics.logException(e);
                     Toaster.showShort(getActivity(), "Save error: " + e.getCode());
-                    mSaveUserButton.setProgress(-1);
+                    saveUserButton.setProgress(-1);
                 }
             }
         });

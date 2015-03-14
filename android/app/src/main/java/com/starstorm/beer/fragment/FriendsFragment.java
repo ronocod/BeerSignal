@@ -2,6 +2,7 @@ package com.starstorm.beer.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.novoda.notils.caster.Views;
 import com.parse.FunctionCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -25,9 +27,6 @@ import com.starstorm.beer.util.Toaster;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FriendsFragment#newInstance} factory method to
@@ -38,16 +37,11 @@ public class FriendsFragment extends Fragment {
     static final String TAG = FriendsFragment.class.getSimpleName();
     private final ParseFriendService friendService = ParseFriendService.INSTANCE;
 
-    @InjectView(R.id.swipe_container)
     private SwipeRefreshLayout swipeLayout;
-    @InjectView(R.id.friend_listview)
-    private ListView listView;
-    @InjectView(R.id.add_friend_text)
     private TextView addFriendNameText;
-    @InjectView(R.id.add_friend_button)
-    private ImageButton addFriendButton;
 
     private FriendAdapter friendAdapter;
+    private ProgressDialog progressDialog;
 
     public static FriendsFragment newInstance() {
         return new FriendsFragment();
@@ -86,8 +80,10 @@ public class FriendsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.inject(this, view);
+        swipeLayout = Views.findById(view, R.id.swipe_container);
+        addFriendNameText = Views.findById(view, R.id.add_friend_text);
 
+        ListView listView = Views.findById(view, R.id.friend_listview);
         listView.setAdapter(friendAdapter);
 
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -127,6 +123,7 @@ public class FriendsFragment extends Fragment {
             }
         });
 
+        ImageButton addFriendButton = Views.findById(view, R.id.add_friend_button);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,5 +166,14 @@ public class FriendsFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void setMenuWhirrerVisible(boolean visible) {
+        if (visible) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.show();
+        } else {
+            progressDialog.hide();
+        }
     }
 }

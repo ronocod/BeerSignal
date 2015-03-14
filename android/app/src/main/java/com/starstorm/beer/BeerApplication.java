@@ -47,12 +47,9 @@ public class BeerApplication extends Application {
         } catch (Exception e) {
             Crashlytics.logException(e);
         }
-
-        Log.d(TAG, "Application onCreate() finished");
     }
 
     public static String printHashKey(Context context, String code) {
-        Log.d(TAG, "keyHash: start");
         Locale locale = new Locale(code);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
@@ -60,7 +57,7 @@ public class BeerApplication extends Application {
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
 
         try {
-            PackageInfo info = context.getPackageManager().getPackageInfo("com.starstorm.beer", PackageManager.GET_SIGNATURES);
+            PackageInfo info = context.getPackageManager().getPackageInfo(BuildConfig.APPLICATION_ID, PackageManager.GET_SIGNATURES);
             Signature[] signatures = info.signatures;
 
             if (signatures == null || signatures.length == 0) {

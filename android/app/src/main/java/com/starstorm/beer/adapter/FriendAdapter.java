@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.novoda.notils.caster.Views;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -20,9 +21,6 @@ import com.starstorm.beer.util.ParseHelper;
 
 import java.util.Arrays;
 import java.util.HashMap;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by Conor on 17/09/2014.
@@ -121,16 +119,15 @@ public class FriendAdapter extends ParseQueryAdapter<ParseObject> {
 
 
 
-    protected static class ViewHolder {
-        @InjectView(R.id.accept_friend_button)
-        Button acceptButton;
-        @InjectView(R.id.friend_username_text)
-        TextView usernameText;
-        @InjectView(R.id.friendship_status_text)
-        TextView statusText;
+    static class ViewHolder {
+        final Button acceptButton;
+        final TextView usernameText;
+        final TextView statusText;
 
         public ViewHolder(View view) {
-            ButterKnife.inject(this, view);
+            acceptButton = Views.findById(view, R.id.accept_friend_button);
+            usernameText = Views.findById(view, R.id.friend_username_text);
+            statusText = Views.findById(view, R.id.friendship_status_text);
         }
     }
 }

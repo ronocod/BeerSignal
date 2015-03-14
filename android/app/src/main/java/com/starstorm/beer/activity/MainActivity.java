@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 
+import com.novoda.notils.caster.Views;
 import com.parse.ParseAnalytics;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -20,10 +22,7 @@ import com.starstorm.beer.ui.slidingtabs.SlidingTabLayout;
 
 import java.util.Locale;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
-public class MainActivity extends BaseActivity {
+public class MainActivity extends ActionBarActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -33,22 +32,21 @@ public class MainActivity extends BaseActivity {
      * may be best to switch to a
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter sectionsPagerAdapter;
 
     /**
      * A custom {@link ViewPager} title strip which looks much like Tabs present in Android v4.0 and
      * above, but is designed to give continuous feedback to the user when scrolling.
      */
-    @InjectView(R.id.sliding_tabs)
-    SlidingTabLayout mSlidingTabLayout;
+    private SlidingTabLayout slidingTabLayout;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager mViewPager;
-    YouFragment youFragment;
-    BigRedFragment bigRedFragment;
-    FriendsFragment friendListFragment;
-    FacebookFriendsFragment facebookFriendListFragment;
+    private ViewPager viewPager;
+    private YouFragment youFragment;
+    private BigRedFragment bigRedFragment;
+    private FriendsFragment friendListFragment;
+    private FacebookFriendsFragment facebookFriendListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,20 +65,20 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
 
-        ButterKnife.inject(this);
+        slidingTabLayout = Views.findById(this, R.id.sliding_tabs);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        sectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
 
-        mSlidingTabLayout.setViewPager(mViewPager);
+        slidingTabLayout.setViewPager(viewPager);
 
-        mViewPager.setCurrentItem(1, false);
+        viewPager.setCurrentItem(1, false);
     }
 
     @Override

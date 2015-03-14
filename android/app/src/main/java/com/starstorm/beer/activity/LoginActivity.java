@@ -2,36 +2,30 @@ package com.starstorm.beer.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.novoda.notils.caster.Views;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.starstorm.beer.R;
 import com.starstorm.beer.fragment.LoginFragment;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+public class LoginActivity extends ActionBarActivity {
 
-public class LoginActivity extends BaseActivity {
-
-    Bundle savedInstanceState;
-    LoginFragment loginFragment;
-
-    @InjectView(R.id.login_progress)
-    ProgressBar loginProgress;
+    private LoginFragment loginFragment;
+    private ProgressBar loginProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.savedInstanceState = savedInstanceState;
-
         setContentView(R.layout.activity_login);
 
-        ButterKnife.inject(this);
+        loginProgress = Views.findById(this, R.id.login_progress);
 
-        if (this.savedInstanceState == null) {
+        if (savedInstanceState == null) {
             loginFragment = LoginFragment.newInstance();
             getFragmentManager().beginTransaction()
                     .add(R.id.container, loginFragment)

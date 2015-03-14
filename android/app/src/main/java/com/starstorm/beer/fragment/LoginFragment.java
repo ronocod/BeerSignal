@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import com.crashlytics.android.Crashlytics;
 import com.dd.CircularProgressButton;
+import com.novoda.notils.caster.Views;
 import com.parse.FunctionCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -27,24 +28,16 @@ import com.starstorm.beer.service.ParseUserService;
 import com.starstorm.beer.util.FacebookHelper;
 import com.starstorm.beer.util.Toaster;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 public class LoginFragment extends Fragment {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
     private final ParseUserService userService = ParseUserService.INSTANCE;
 
-    @InjectView(R.id.username_field)
-    EditText mUsernameField;
-    @InjectView(R.id.password_field)
-    EditText mPasswordField;
-    @InjectView(R.id.facebook_login_button)
-    CircularProgressButton mFacebookLoginButton;
-    @InjectView(R.id.login_button)
-    CircularProgressButton mLoginButton;
-    @InjectView(R.id.signup_button)
-    CircularProgressButton mSignupButton;
+    private EditText usernameField;
+    private EditText passwordField;
+    private CircularProgressButton facebookLoginButton;
+    private CircularProgressButton loginButton;
+    private CircularProgressButton signupButton;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -65,36 +58,40 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.inject(this, view);
+        usernameField = Views.findById(view, R.id.username_field);
+        passwordField = Views.findById(view, R.id.password_field);
+        facebookLoginButton = Views.findById(view, R.id.facebook_login_button);
+        loginButton = Views.findById(view, R.id.login_button);
+        signupButton = Views.findById(view, R.id.signup_button);
 
-        mSignupButton.setOnClickListener(new View.OnClickListener() {
+        signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signUp();
             }
         });
-        mSignupButton.setIndeterminateProgressMode(true);
+        signupButton.setIndeterminateProgressMode(true);
 
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logIn();
             }
         });
-        mLoginButton.setIndeterminateProgressMode(true);
+        loginButton.setIndeterminateProgressMode(true);
 
-        mFacebookLoginButton.setOnClickListener(new View.OnClickListener() {
+        facebookLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logInWithFacebook();
             }
         });
-        mFacebookLoginButton.setIndeterminateProgressMode(true);
+        facebookLoginButton.setIndeterminateProgressMode(true);
 
     }
 
     private void logInWithFacebook() {
-        mFacebookLoginButton.setProgress(1);
+        facebookLoginButton.setProgress(1);
         ParseFacebookUtils.logIn(getActivity(), new LogInCallback() {
             @Override
             public void done(final ParseUser parseUser, ParseException e) {
@@ -111,7 +108,7 @@ public class LoginFragment extends Fragment {
                 } else {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
-                    mFacebookLoginButton.setProgress(0);
+                    facebookLoginButton.setProgress(0);
                     if (e.getCause() != null) {
                         Log.e(TAG, e.getCause().getMessage());
                     }
@@ -172,7 +169,7 @@ public class LoginFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Canceled.
                         ParseUser.getCurrentUser().deleteInBackground();
-                        mFacebookLoginButton.setProgress(0);
+                        facebookLoginButton.setProgress(0);
                     }
                 });
 
@@ -181,7 +178,7 @@ public class LoginFragment extends Fragment {
 
             public void onLoginSuccess() {
                 Toaster.showShort(getActivity(), "Logged in");
-                // don't set mFacebookLoginButton to complete as it looks bad while transitioning to the activity
+                // don't set facebookLoginButton to complete as it looks bad while transitioning to the activity
                 finishLogin(ParseUser.getCurrentUser());
             }
         });
@@ -189,14 +186,14 @@ public class LoginFragment extends Fragment {
 
     private void signUp() {
         final ParseUser me = new ParseUser();
-        me.setUsername(mUsernameField.getText().toString().toLowerCase());
-        me.setPassword(mPasswordField.getText().toString());
+        me.setUsername(usernameField.getText().toString().toLowerCase());
+        me.setPassword(passwordField.getText().toString());
 
         // other fields can be set just like with ParseObject
 //        user.put("phone", "650-555-0000");
 
         try {
-            mSignupButton.setProgress(1);
+            signupButton.setProgress(1);
             me.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
                     if (e == null) {
@@ -207,23 +204,23 @@ public class LoginFragment extends Fragment {
                         // Sign up didn't succeed. Look at the ParseException
                         // to figure out what went wrong
                         Crashlytics.logException(e);
-                        mSignupButton.setProgress(0);
+                        signupButton.setProgress(0);
                         Toaster.showShort(getActivity(), "Signup failed: " + e.getMessage());
                     }
                 }
             });
         } catch (Exception e) {
             Crashlytics.logException(e);
-            mSignupButton.setProgress(0);
+            signupButton.setProgress(0);
             Toaster.showShort(getActivity(), "Signup failed: " + e.getMessage());
         }
     }
 
     private void logIn() {
-        final String username = mUsernameField.getText().toString().toLowerCase();
-        final String password = mPasswordField.getText().toString();
+        final String username = usernameField.getText().toString().toLowerCase();
+        final String password = passwordField.getText().toString();
         try {
-            mLoginButton.setProgress(1);
+            loginButton.setProgress(1);
             ParseUser.logInInBackground(username, password, new LogInCallback() {
                 @Override
                 public void done(ParseUser parseUser, ParseException e) {
@@ -236,14 +233,14 @@ public class LoginFragment extends Fragment {
                         // Sign up didn't succeed. Look at the ParseException
                         // to figure out what went wrong
                         Crashlytics.logException(e);
-                        mLoginButton.setProgress(0);
+                        loginButton.setProgress(0);
                         Toaster.showShort(getActivity(), "Login failed: " + e.getMessage());
                     }
                 }
             });
         } catch (Exception e) {
             Crashlytics.logException(e);
-            mLoginButton.setProgress(0);
+            loginButton.setProgress(0);
             Toaster.showShort(getActivity(), "Login failed: " + e.getMessage());
         }
     }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.model.GraphUser;
+import com.novoda.notils.caster.Views;
 import com.parse.FunctionCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -21,9 +22,6 @@ import com.starstorm.beer.service.ParseFriendService;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by Conor on 17/09/2014.
@@ -122,18 +120,17 @@ public class FacebookFriendAdapter extends ParseQueryAdapter<ParseUser> {
         });
     }
 
-    protected static class ViewHolder {
-        @InjectView(R.id.facebook_friend_photo)
-        ImageView facebookFriendPhoto;
-        @InjectView(R.id.add_friend_button)
-        Button addButton;
-        @InjectView(R.id.friend_username_text)
-        TextView usernameText;
-        @InjectView(R.id.friendship_status_text)
-        TextView statusText;
+    static class ViewHolder {
+        final ImageView facebookFriendPhoto;
+        final Button addButton;
+        final TextView usernameText;
+        final TextView statusText;
 
         public ViewHolder(View view) {
-            ButterKnife.inject(this, view);
+            facebookFriendPhoto = Views.findById(view, R.id.facebook_friend_photo);
+            addButton = Views.findById(view, R.id.add_friend_button);
+            usernameText = Views.findById(view, R.id.friend_username_text);
+            statusText = Views.findById(view, R.id.friendship_status_text);
         }
     }
 }

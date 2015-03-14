@@ -1,7 +1,7 @@
 package com.starstorm.beer.fragment;
 
-
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import com.crashlytics.android.Crashlytics;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.model.GraphUser;
+import com.novoda.notils.caster.Views;
 import com.parse.FunctionCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -30,29 +31,20 @@ import java.util.List;
 
 import bolts.Continuation;
 import bolts.Task;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * A simple {@link android.app.Fragment} subclass.
  * Use the {@link com.starstorm.beer.fragment.FacebookFriendsFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class FacebookFriendsFragment extends Fragment {
 
-    static final String TAG = FacebookFriendsFragment.class.getSimpleName();
     private final ParseFriendService friendService = ParseFriendService.INSTANCE;
 
-    @InjectView(R.id.swipe_container)
-    SwipeRefreshLayout mSwipeLayout;
-    @InjectView(R.id.friend_listview)
-    ListView mListView;
-    @InjectView(R.id.add_friend_text)
-    TextView mAddFriendNameText;
-    @InjectView(R.id.add_friend_button)
-    ImageButton mAddFriendButton;
+    private SwipeRefreshLayout swipeLayout;
+    private TextView addFriendNameText;
     private FacebookFriendAdapter facebookFriendAdapter;
+    private ProgressDialog progressDialog;
 
     public static FacebookFriendsFragment newInstance() {
         return new FacebookFriendsFragment();
@@ -74,15 +66,15 @@ public class FacebookFriendsFragment extends Fragment {
                 facebookFriendAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseUser>() {
                     @Override
                     public void onLoading() {
-                        if (getActivity() != null && mSwipeLayout != null) {
-                            mSwipeLayout.setRefreshing(true);
+                        if (getActivity() != null && swipeLayout != null) {
+                            swipeLayout.setRefreshing(true);
                         }
                     }
 
                     @Override
                     public void onLoaded(List<ParseUser> parseUsers, Exception e) {
-                        if (getActivity() != null && mSwipeLayout != null) {
-                            mSwipeLayout.setRefreshing(false);
+                        if (getActivity() != null && swipeLayout != null) {
+                            swipeLayout.setRefreshing(false);
                         }
                     }
                 });
@@ -96,13 +88,13 @@ public class FacebookFriendsFragment extends Fragment {
         } else {
             // get the permission and then perform the request
             ParseFacebookUtils.linkInBackground(ParseUser.getCurrentUser(), Arrays.asList("user_friends"), getActivity())
-                .onSuccess(new Continuation<Void, Void>() {
-                    @Override
-                    public Void then(Task<Void> voidTask) throws Exception {
-                        performRequest(callback);
-                        return null;
-                    }
-                });
+                    .onSuccess(new Continuation<Void, Void>() {
+                        @Override
+                        public Void then(Task<Void> voidTask) throws Exception {
+                            performRequest(callback);
+                            return null;
+                        }
+                    });
         }
     }
 
@@ -119,26 +111,29 @@ public class FacebookFriendsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.inject(this, view);
+        swipeLayout = Views.findById(view, R.id.swipe_container);
+        addFriendNameText = Views.findById(view, R.id.add_friend_text);
 
-        mListView.setAdapter(facebookFriendAdapter);
+        ListView listView = Views.findById(view, R.id.friend_listview);
+        listView.setAdapter(facebookFriendAdapter);
 
-        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 facebookFriendAdapter.loadObjects();
             }
         });
 
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        mAddFriendButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton addFriendButton = Views.findById(view, R.id.add_friend_button);
+        addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = mAddFriendNameText.getText().toString().toLowerCase();
+                String username = addFriendNameText.getText().toString().toLowerCase();
                 sendFriendRequest(username);
             }
         });
@@ -153,12 +148,21 @@ public class FacebookFriendsFragment extends Fragment {
                 if (e == null) {
                     Toaster.showShort(getActivity(), "sendfriendrequest success");
                     facebookFriendAdapter.loadObjects();
-                    mAddFriendNameText.setText("");
+                    addFriendNameText.setText("");
                 } else {
                     Crashlytics.logException(e);
                     Toaster.showShort(getActivity(), "Error: " + e.getMessage());
                 }
             }
         });
+    }
+
+    private void setMenuWhirrerVisible(boolean visible) {
+        if (visible) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.show();
+        } else {
+            progressDialog.hide();
+        }
     }
 }

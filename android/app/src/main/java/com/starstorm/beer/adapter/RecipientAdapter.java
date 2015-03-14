@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.novoda.notils.caster.Views;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -16,9 +17,6 @@ import com.starstorm.beer.R;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by Conor on 17/09/2014.
@@ -110,14 +108,13 @@ public class RecipientAdapter extends ParseQueryAdapter<ParseObject> {
         return friend.getUsername();
     }
 
-    protected static class ViewHolder {
-        @InjectView(R.id.friend_selected_checkbox)
-        CheckBox selectedCheckbox;
-        @InjectView(R.id.friend_username_text)
-        TextView usernameText;
+    static class ViewHolder {
+        final CheckBox selectedCheckbox;
+        final TextView usernameText;
 
         public ViewHolder(View view) {
-            ButterKnife.inject(this, view);
+            selectedCheckbox = Views.findById(view, R.id.friend_selected_checkbox);
+            usernameText = Views.findById(view, R.id.friend_username_text);
         }
     }
 }
