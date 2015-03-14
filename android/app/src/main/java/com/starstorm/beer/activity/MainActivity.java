@@ -24,25 +24,6 @@ import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v13.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter sectionsPagerAdapter;
-
-    /**
-     * A custom {@link ViewPager} title strip which looks much like Tabs present in Android v4.0 and
-     * above, but is designed to give continuous feedback to the user when scrolling.
-     */
-    private SlidingTabLayout slidingTabLayout;
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager viewPager;
     private YouFragment youFragment;
     private BigRedFragment bigRedFragment;
     private FriendsFragment friendListFragment;
@@ -65,15 +46,30 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        slidingTabLayout = Views.findById(this, R.id.sliding_tabs);
+        /*
+      A custom {@link ViewPager} title strip which looks much like Tabs present in Android v4.0 and
+      above, but is designed to give continuous feedback to the user when scrolling.
+     */
+        SlidingTabLayout slidingTabLayout = Views.findById(this, R.id.sliding_tabs);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        sectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that will provide
+      fragments for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which will keep every
+      loaded fragment in memory. If this becomes too memory intensive, it
+      may be best to switch to a
+      {@link android.support.v13.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        /*
+      The {@link ViewPager} that will host the section contents.
+     */
+        ViewPager viewPager = Views.findById(this, R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
 
         slidingTabLayout.setViewPager(viewPager);
