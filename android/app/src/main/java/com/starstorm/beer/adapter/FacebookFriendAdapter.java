@@ -17,7 +17,6 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 import com.starstorm.beer.R;
-import com.starstorm.beer.service.FriendService;
 import com.starstorm.beer.service.ParseFriendService;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ import butterknife.InjectView;
 public class FacebookFriendAdapter extends ParseQueryAdapter<ParseUser> {
 
     private static final String TAG = FacebookFriendAdapter.class.getSimpleName();
-    private final FriendService friendService = ParseFriendService.INSTANCE;
+    private final ParseFriendService friendService = ParseFriendService.INSTANCE;
 
     public FacebookFriendAdapter(final Context context, final List<GraphUser> friends) {
         super(context, new QueryFactory<ParseUser>() {

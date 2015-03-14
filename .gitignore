@@ -11,3 +11,4 @@ android/facebook/build/
 android/.idea/
 android/app/crashlytics.properties
 android/app/build/
+*.iml

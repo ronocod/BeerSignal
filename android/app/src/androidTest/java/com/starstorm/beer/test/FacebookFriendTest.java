@@ -13,7 +13,6 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.starstorm.beer.BeerApplication;
-import com.starstorm.beer.service.AuthService;
 import com.starstorm.beer.service.ParseAuthService;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ import java.util.List;
 public class FacebookFriendTest extends ApplicationTestCase<BeerApplication> {
 
     private static final String TAG = FacebookFriendTest.class.getSimpleName();
-    private final AuthService authService = ParseAuthService.INSTANCE;
+    private final ParseAuthService authService = ParseAuthService.INSTANCE;
 
     public FacebookFriendTest() {
         super(BeerApplication.class);

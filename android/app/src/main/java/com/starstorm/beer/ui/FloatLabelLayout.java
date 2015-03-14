@@ -43,13 +43,13 @@ import com.starstorm.beer.R;
 public final class FloatLabelLayout extends FrameLayout {
 
     private static final long ANIMATION_DURATION = 150;
-
     private static final float DEFAULT_PADDING_LEFT_RIGHT_DP = 4f;
 
-    private EditText mEditText;
-    private TextView mLabel;
-    private OnFocusChangeListener mFocusListener;
-    private TextWatcher mTextListener;
+    private final TextView label;
+
+    private OnFocusChangeListener focusChangeListener;
+    private EditText editText;
+    private TextWatcher textListener;
 
     public FloatLabelLayout(Context context) {
         this(context, null);
@@ -68,33 +68,33 @@ public final class FloatLabelLayout extends FrameLayout {
         final int sidePadding = a.getDimensionPixelSize(
                 R.styleable.FloatLabelLayout_floatLabelSidePadding,
                 dipsToPix(DEFAULT_PADDING_LEFT_RIGHT_DP));
-        mLabel = new TextView(context);
-        mLabel.setPadding(sidePadding, 0, sidePadding, 0);
-        mLabel.setVisibility(INVISIBLE);
+        label = new TextView(context);
+        label.setPadding(sidePadding, 0, sidePadding, 0);
+        label.setVisibility(INVISIBLE);
 
-        mLabel.setTextAppearance(context,
+        label.setTextAppearance(context,
                 a.getResourceId(R.styleable.FloatLabelLayout_floatLabelTextAppearance,
                         android.R.style.TextAppearance_Small)
         );
 
-        addView(mLabel, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        addView(label, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         a.recycle();
     }
 
     public void setTextFocusChangeListener(OnFocusChangeListener listener) {
-        this.mFocusListener = listener;
+        this.focusChangeListener = listener;
     }
 
     public void setTextChangedListener(TextWatcher watcher) {
-        this.mTextListener = watcher;
+        this.textListener = watcher;
     }
 
     @Override
     public final void addView(@NonNull View child, int index, ViewGroup.LayoutParams params) {
         if (child instanceof EditText) {
             // If we already have an EditText, throw an exception
-            if (mEditText != null) {
+            if (editText != null) {
                 throw new IllegalArgumentException("We already have an EditText, can only have one");
             }
 
@@ -102,7 +102,7 @@ public final class FloatLabelLayout extends FrameLayout {
             // margin to show the label
             final LayoutParams lp = new LayoutParams(params);
             lp.gravity = Gravity.BOTTOM;
-            lp.topMargin = (int) mLabel.getTextSize();
+            lp.topMargin = (int) label.getTextSize();
             params = lp;
 
             setEditText((EditText) child);
@@ -116,44 +116,44 @@ public final class FloatLabelLayout extends FrameLayout {
      * @return the {@link android.widget.EditText} text input
      */
     public EditText getEditText() {
-        return mEditText;
+        return editText;
     }
 
     private void setEditText(EditText editText) {
-        mEditText = editText;
+        this.editText = editText;
 
         // Add a TextWatcher so that we know when the text input has changed
-        mEditText.addTextChangedListener(new TextWatcher() {
+        this.editText.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s)) {
                     // The text is empty, so hide the label if it is visible
-                    if (mLabel.getVisibility() == View.VISIBLE) {
+                    if (label.getVisibility() == View.VISIBLE) {
                         hideLabel();
                     }
                 } else {
                     // The text is not empty, so show the label if it is not visible
-                    if (mLabel.getVisibility() != View.VISIBLE) {
+                    if (label.getVisibility() != View.VISIBLE) {
                         showLabel();
                     }
                 }
-                if (mTextListener != null) {
-                    mTextListener.afterTextChanged(s);
+                if (textListener != null) {
+                    textListener.afterTextChanged(s);
                 }
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (mTextListener != null) {
-                    mTextListener.beforeTextChanged(s, start, count, after);
+                if (textListener != null) {
+                    textListener.beforeTextChanged(s, start, count, after);
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mTextListener != null) {
-                    mTextListener.onTextChanged(s, start, before, count);
+                if (textListener != null) {
+                    textListener.onTextChanged(s, start, before, count);
                 }
             }
 
@@ -161,34 +161,34 @@ public final class FloatLabelLayout extends FrameLayout {
 
         // Add focus listener to the EditText so that we can notify the label that it is activated.
         // Allows the use of a ColorStateList for the text color on the label
-        mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+        this.editText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean focused) {
-                mLabel.setActivated(focused);
-                if (mFocusListener != null) {
-                    mFocusListener.onFocusChange(view, focused);
+                label.setActivated(focused);
+                if (focusChangeListener != null) {
+                    focusChangeListener.onFocusChange(view, focused);
                 }
             }
         });
 
-        mLabel.setText(mEditText.getHint());
+        label.setText(this.editText.getHint());
     }
 
     /**
      * @return the {@link android.widget.TextView} label
      */
     public TextView getLabel() {
-        return mLabel;
+        return label;
     }
 
     /**
      * Show the label using an animation
      */
     private void showLabel() {
-        mLabel.setVisibility(View.VISIBLE);
-        mLabel.setAlpha(0f);
-        mLabel.setTranslationY(mLabel.getHeight());
-        mLabel.animate()
+        label.setVisibility(View.VISIBLE);
+        label.setAlpha(0f);
+        label.setTranslationY(label.getHeight());
+        label.animate()
                 .alpha(1f)
                 .translationY(0f)
                 .setDuration(ANIMATION_DURATION)
@@ -199,16 +199,16 @@ public final class FloatLabelLayout extends FrameLayout {
      * Hide the label using an animation
      */
     private void hideLabel() {
-        mLabel.setAlpha(1f);
-        mLabel.setTranslationY(0f);
-        mLabel.animate()
+        label.setAlpha(1f);
+        label.setTranslationY(0f);
+        label.animate()
                 .alpha(0f)
-                .translationY(mLabel.getHeight())
+                .translationY(label.getHeight())
                 .setDuration(ANIMATION_DURATION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mLabel.setVisibility(View.GONE);
+                        label.setVisibility(View.GONE);
                     }
                 }).start();
     }

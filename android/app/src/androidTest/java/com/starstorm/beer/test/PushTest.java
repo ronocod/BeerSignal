@@ -8,10 +8,8 @@ import com.parse.FunctionCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.starstorm.beer.BeerApplication;
-import com.starstorm.beer.service.AuthService;
 import com.starstorm.beer.service.ParseAuthService;
 import com.starstorm.beer.service.ParseSignalService;
-import com.starstorm.beer.service.SignalService;
 
 import java.util.ArrayList;
 
@@ -21,8 +19,8 @@ import java.util.ArrayList;
 public class PushTest extends ApplicationTestCase<BeerApplication> {
 
     private static final String TAG = PushTest.class.getSimpleName();
-    private final AuthService authService = ParseAuthService.INSTANCE;
-    private final SignalService signalService = ParseSignalService.INSTANCE;
+    private final ParseAuthService authService = ParseAuthService.INSTANCE;
+    private final ParseSignalService signalService = ParseSignalService.INSTANCE;
 
     public PushTest() {
         super(BeerApplication.class);

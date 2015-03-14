@@ -1,5 +1,6 @@
 package com.starstorm.beer.fragment;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -18,7 +19,6 @@ import com.parse.ParseQueryAdapter;
 import com.starstorm.beer.R;
 import com.starstorm.beer.adapter.RecipientAdapter;
 import com.starstorm.beer.service.ParseSignalService;
-import com.starstorm.beer.service.SignalService;
 import com.starstorm.beer.util.Toaster;
 
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ import java.util.Set;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class BigRedFragment extends BaseFragment {
+public class BigRedFragment extends Fragment {
 
-    private final SignalService signalService = ParseSignalService.INSTANCE;
+    private final ParseSignalService signalService = ParseSignalService.INSTANCE;
 
     @InjectView(R.id.big_red_button)
     ImageButton mBigRedButton;

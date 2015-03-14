@@ -1,6 +1,7 @@
 package com.starstorm.beer.fragment;
 
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.starstorm.beer.R;
 import com.starstorm.beer.adapter.FacebookFriendAdapter;
-import com.starstorm.beer.service.FriendService;
 import com.starstorm.beer.service.ParseFriendService;
 import com.starstorm.beer.util.Toaster;
 
@@ -39,10 +39,10 @@ import butterknife.InjectView;
  * create an instance of this fragment.
  *
  */
-public class FacebookFriendsFragment extends BaseFragment {
+public class FacebookFriendsFragment extends Fragment {
 
     static final String TAG = FacebookFriendsFragment.class.getSimpleName();
-    private final FriendService friendService = ParseFriendService.INSTANCE;
+    private final ParseFriendService friendService = ParseFriendService.INSTANCE;
 
     @InjectView(R.id.swipe_container)
     SwipeRefreshLayout mSwipeLayout;

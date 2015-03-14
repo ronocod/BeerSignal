@@ -10,17 +10,15 @@ import java.util.List;
 /**
  * Created by Conor on 16/10/2014.
  */
-public enum ParseSignalService implements SignalService {
+public enum ParseSignalService {
     INSTANCE;
 
     private long lastSignal;
 
-    @Override
     public void fireSignal(FunctionCallback<Object> callback) {
         fireSignal(null, callback);
     }
 
-    @Override
     public void fireSignal(List<String> recipients, FunctionCallback<Object> callback) {
         long now = System.currentTimeMillis();
         if (now - lastSignal < 10 * 1000) {

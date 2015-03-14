@@ -20,11 +20,10 @@ import bolts.Task;
 /**
  * Created by Conor on 16/10/2014.
  */
-public enum ParseFacebookService implements FacebookService {
+public enum ParseFacebookService {
 
     INSTANCE;
 
-    @Override
     public void fetchFacebookFriendUsers(final Activity activity, final FindCallback<ParseUser> callback) {
 
         if (ParseFacebookUtils.getSession().getPermissions().contains("user_friends")) {

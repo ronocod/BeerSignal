@@ -1,6 +1,7 @@
 package com.starstorm.beer.fragment;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,17 +24,16 @@ import com.parse.SignUpCallback;
 import com.starstorm.beer.R;
 import com.starstorm.beer.activity.MainActivity;
 import com.starstorm.beer.service.ParseUserService;
-import com.starstorm.beer.service.UserService;
 import com.starstorm.beer.util.FacebookHelper;
 import com.starstorm.beer.util.Toaster;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LoginFragment extends BaseFragment {
+public class LoginFragment extends Fragment {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
-    private final UserService userService = ParseUserService.INSTANCE;
+    private final ParseUserService userService = ParseUserService.INSTANCE;
 
     @InjectView(R.id.username_field)
     EditText mUsernameField;

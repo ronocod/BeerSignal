@@ -1,6 +1,5 @@
 package com.starstorm.beer.fragment;
 
-
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -21,7 +20,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 import com.starstorm.beer.R;
 import com.starstorm.beer.adapter.FriendAdapter;
-import com.starstorm.beer.service.FriendService;
 import com.starstorm.beer.service.ParseFriendService;
 import com.starstorm.beer.util.Toaster;
 
@@ -34,21 +32,21 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * Use the {@link FriendsFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
-public class FriendsFragment extends BaseFragment {
+public class FriendsFragment extends Fragment {
 
     static final String TAG = FriendsFragment.class.getSimpleName();
-    private final FriendService friendService = ParseFriendService.INSTANCE;
+    private final ParseFriendService friendService = ParseFriendService.INSTANCE;
 
     @InjectView(R.id.swipe_container)
-    SwipeRefreshLayout mSwipeLayout;
+    private SwipeRefreshLayout swipeLayout;
     @InjectView(R.id.friend_listview)
-    ListView mListView;
+    private ListView listView;
     @InjectView(R.id.add_friend_text)
-    TextView mAddFriendNameText;
+    private TextView addFriendNameText;
     @InjectView(R.id.add_friend_button)
-    ImageButton mAddFriendButton;
+    private ImageButton addFriendButton;
+
     private FriendAdapter friendAdapter;
 
     public static FriendsFragment newInstance() {
@@ -72,8 +70,8 @@ public class FriendsFragment extends BaseFragment {
 
             @Override
             public void onLoaded(List<ParseObject> parseUsers, Exception e) {
-                if (getActivity() != null && mSwipeLayout != null) {
-                    mSwipeLayout.setRefreshing(false);
+                if (getActivity() != null && swipeLayout != null) {
+                    swipeLayout.setRefreshing(false);
                 }
             }
         });
@@ -90,20 +88,20 @@ public class FriendsFragment extends BaseFragment {
 
         ButterKnife.inject(this, view);
 
-        mListView.setAdapter(friendAdapter);
+        listView.setAdapter(friendAdapter);
 
-        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 friendAdapter.loadObjects();
             }
         });
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
 
@@ -129,10 +127,10 @@ public class FriendsFragment extends BaseFragment {
             }
         });
 
-        mAddFriendButton.setOnClickListener(new View.OnClickListener() {
+        addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = mAddFriendNameText.getText().toString().toLowerCase();
+                String username = addFriendNameText.getText().toString().toLowerCase();
                 sendFriendRequest(username);
             }
         });
@@ -164,7 +162,7 @@ public class FriendsFragment extends BaseFragment {
                 if (e == null) {
                     Toaster.showShort(getActivity(), "sendfriendrequest success");
                     friendAdapter.loadObjects();
-                    mAddFriendNameText.setText("");
+                    addFriendNameText.setText("");
                 } else {
                     Crashlytics.logException(e);
                     Toaster.showShort(getActivity(), "Error: " + e.getMessage());
