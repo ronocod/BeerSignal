@@ -8,7 +8,6 @@ buildscript {
     dependencies {
         classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.14.7'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.8'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.10.1316"
 //        classpath 'com.jakewharton.hugo:hugo-plugin:1.1.0'
     }
 }
@@ -84,7 +83,7 @@ repositories {
 
 dependencies {
     compile files('libs/Parse-1.8.3.jar')
-    compile "org.jetbrains.kotlin:kotlin-stdlib:0.10.1316"
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:0.10.770'
     compile 'com.android.support:support-v13:22.0.0'
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:support-v4:22.0.0'
