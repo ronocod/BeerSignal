@@ -8,8 +8,7 @@ import com.starstorm.beer.util.getDefaultParams
 /**
  * Created by Conor on 16/10/2014.
  */
-public enum class ParseFriendService {
-    INSTANCE
+public object ParseFriendService {
 
     public fun sendUnfriendRequest(friendship: ParseObject, callback: FunctionCallback<Any>) {
         val params = getDefaultParams()

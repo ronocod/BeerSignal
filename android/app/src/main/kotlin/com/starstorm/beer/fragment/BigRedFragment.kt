@@ -30,7 +30,6 @@ public class BigRedFragment : Fragment() {
     private val signalService = ParseSignalService.INSTANCE
 
     private var sendToAllCheckbox: CheckBox? = null
-    private var swipeLayout: SwipeRefreshLayout? = null
     private var recipientAdapter: RecipientAdapter? = null
     private var progressDialog: ProgressDialog? = null
 
@@ -47,40 +46,42 @@ public class BigRedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        swipeLayout = Views.findById<SwipeRefreshLayout>(view, R.id.swipe_container)
+        val swipeLayout = view.findViewById(R.id.swipe_container) as SwipeRefreshLayout
+
         sendToAllCheckbox = Views.findById<CheckBox>(view, R.id.send_to_all_checkbox)
 
+        val recipientAdapter = recipientAdapter!!
         val recipientListView = Views.findById<ListView>(view, R.id.recipient_listview)
         recipientListView.setAdapter(recipientAdapter)
-        recipientAdapter!!.addOnQueryLoadListener(object : ParseQueryAdapter.OnQueryLoadListener<ParseObject> {
+        recipientAdapter.addOnQueryLoadListener(object : ParseQueryAdapter.OnQueryLoadListener<ParseObject> {
             override fun onLoading() {
             }
 
             override fun onLoaded(parseUsers: List<ParseObject>, e: Exception) {
-                if (getActivity() != null && swipeLayout != null) {
-                    swipeLayout!!.setRefreshing(false)
+                if (getActivity() != null) {
+                    swipeLayout.setRefreshing(false)
                 }
             }
         })
 
-        swipeLayout!!.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
+        swipeLayout.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
-                recipientAdapter!!.loadObjects()
+                recipientAdapter.loadObjects()
             }
         })
-        swipeLayout!!.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light)
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light)
 
         sendToAllCheckbox!!.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(compoundButton: CompoundButton, checked: Boolean) {
                 if (checked) {
-                    swipeLayout!!.setVisibility(View.GONE)
+                    swipeLayout.setVisibility(View.GONE)
                 } else {
-                    swipeLayout!!.setVisibility(View.VISIBLE)
+                    swipeLayout.setVisibility(View.VISIBLE)
                 }
             }
         })
 
-        val bigRedButton = Views.findById<ImageButton>(view, R.id.big_red_button)
+        val bigRedButton = view.findViewById(R.id.big_red_button) as ImageButton
         bigRedButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
                 fireSignal()
@@ -98,7 +99,7 @@ public class BigRedFragment : Fragment() {
                     Toaster.showShort(getActivity(), "Signal sent")
                 } else {
                     Crashlytics.logException(e)
-                    Toaster.showShort(getActivity(), "Error: " + e.getMessage())
+                    Toaster.showShort(getActivity(), "Error: ${e.getMessage()}")
                 }
             }
         }
@@ -127,8 +128,7 @@ public class BigRedFragment : Fragment() {
     class object {
 
         public fun newInstance(): BigRedFragment {
-            var f = BigRedFragment()
-            return f;
+            return BigRedFragment()
         }
     }
 }

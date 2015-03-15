@@ -7,8 +7,7 @@ import com.starstorm.beer.util.getDefaultParams
 /**
  * Created by Conor on 16/10/2014.
  */
-public enum class ParseSignalService {
-    INSTANCE
+public object ParseSignalService {
 
     private var lastSignal: Long = 0
 

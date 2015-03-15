@@ -14,23 +14,22 @@ import com.parse.SaveCallback;
  */
 public class FacebookHelper {
 
-    public static final String TAG = FacebookHelper.class.getSimpleName();
-
     public static void getFacebookIdInBackground() {
         Request.newMeRequest(ParseFacebookUtils.getSession(), new Request.GraphUserCallback() {
             @Override
             public void onCompleted(GraphUser user, Response response) {
-                if (user != null) {
-                    ParseUser.getCurrentUser().put("facebookId", Long.valueOf(user.getId()));
-                    ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Crashlytics.logException(e);
-                            }
-                        }
-                    });
+                if (user == null) {
+                    return;
                 }
+                ParseUser.getCurrentUser().put("facebookId", Long.valueOf(user.getId()));
+                ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Crashlytics.logException(e);
+                        }
+                    }
+                });
             }
         }).executeAsync();
     }
