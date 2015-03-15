@@ -30,7 +30,7 @@ import com.starstorm.beer.util.Toaster
 
 public class LoginFragment// Required empty public constructor
 : Fragment() {
-    private val userService = ParseUserService.INSTANCE
+    private val userService = ParseUserService
 
     private var usernameField: EditText? = null
     private var passwordField: EditText? = null
@@ -93,10 +93,11 @@ public class LoginFragment// Required empty public constructor
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
                     facebookLoginButton!!.setProgress(0)
-                    if (e.getCause() != null) {
-                        Log.e(TAG, e.getCause().getMessage())
+                    val cause = e.getCause()
+                    if (cause != null) {
+                        Log.e(TAG, cause.getMessage())
                     }
-                    if (e.getCause() == null || !(e.getCause() is com.facebook.FacebookOperationCanceledException)) {
+                    if (cause == null || cause !is com.facebook.FacebookOperationCanceledException) {
                         Crashlytics.logException(e)
                         Toaster.showShort(getActivity(), "Login failed: " + e.getMessage())
                     }

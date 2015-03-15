@@ -33,7 +33,7 @@ import com.starstorm.beer.util.Toaster
 public class FriendsFragment// Required empty public constructor
 : Fragment() {
 
-    private val friendService = ParseFriendService.INSTANCE
+    private val friendService = ParseFriendService
 
     private var swipeLayout: SwipeRefreshLayout? = null
     private var addFriendNameText: TextView? = null

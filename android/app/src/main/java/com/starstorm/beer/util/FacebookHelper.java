@@ -9,9 +9,6 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-/**
- * Created by Conor on 05/11/2014.
- */
 public class FacebookHelper {
 
     public static void getFacebookIdInBackground() {

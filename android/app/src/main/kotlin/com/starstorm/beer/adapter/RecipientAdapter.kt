@@ -7,7 +7,6 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
 
-import com.novoda.notils.caster.Views
 import com.parse.ParseObject
 import com.parse.ParseQuery
 import com.parse.ParseQueryAdapter
@@ -20,39 +19,43 @@ import java.util.HashMap
 /**
  * Created by Conor on 17/09/2014.
  */
-public class RecipientAdapter(context: Context) : ParseQueryAdapter<ParseObject>(context, object : ParseQueryAdapter.QueryFactory<ParseObject> {
-    override fun create(): ParseQuery<ParseObject> {
+public class RecipientAdapter(context: Context) : ParseQueryAdapter<ParseObject>(context, RecipientAdapter.queryFactory) {
 
-        // Here we can configure a ParseQuery to our heart's desire.
-        val friendshipFromQuery = ParseQuery<ParseObject>("Friendship")
-                .whereEqualTo("from", ParseUser.getCurrentUser())
-                .whereEqualTo("status", "accepted")
+    class object {
+        val queryFactory = object : ParseQueryAdapter.QueryFactory<ParseObject> {
+            override fun create(): ParseQuery<ParseObject> {
 
-        val friendshipToQuery = ParseQuery<ParseObject>("Friendship")
-                .whereEqualTo("to", ParseUser.getCurrentUser())
-                .whereEqualTo("status", "accepted")
+                // Here we can configure a ParseQuery to our heart's desire.
+                val friendshipFromQuery = ParseQuery<ParseObject>("Friendship")
+                        .whereEqualTo("from", ParseUser.getCurrentUser())
+                        .whereEqualTo("status", "accepted")
 
-        val friendshipQuery = ParseQuery.or<ParseObject>(Arrays.asList<ParseQuery<ParseObject>>(friendshipFromQuery, friendshipToQuery))
+                val friendshipToQuery = ParseQuery<ParseObject>("Friendship")
+                        .whereEqualTo("to", ParseUser.getCurrentUser())
+                        .whereEqualTo("status", "accepted")
 
-        friendshipQuery.include("from")
-        friendshipQuery.include("to")
-        return friendshipQuery
+                val friendshipQuery = ParseQuery.or<ParseObject>(Arrays.asList<ParseQuery<ParseObject>>(friendshipFromQuery, friendshipToQuery))
+
+                friendshipQuery.include("from")
+                friendshipQuery.include("to")
+                return friendshipQuery
+            }
+        }
     }
-}) {
 
-    public var recipients: HashMap<String, ParseUser> = HashMap()
-        private set
 
     {
         addOnQueryLoadListener(object : ParseQueryAdapter.OnQueryLoadListener<ParseObject> {
             override fun onLoading() {
-                recipients = HashMap<String, ParseUser>()
+                recipients.clear()
             }
 
             override fun onLoaded(parseObjects: List<ParseObject>, e: Exception) {
             }
         })
     }
+
+    public val recipients: HashMap<String, ParseUser> = HashMap()
 
     override fun getItemView(item: ParseObject, recycledView: View?, parent: ViewGroup): View {
         var view: View
@@ -98,17 +101,7 @@ public class RecipientAdapter(context: Context) : ParseQueryAdapter<ParseObject>
     }
 
     class ViewHolder(view: View) {
-        val selectedCheckbox: CheckBox
-        val usernameText: TextView
-
-        {
-            selectedCheckbox = Views.findById<CheckBox>(view, R.id.friend_selected_checkbox)
-            usernameText = Views.findById<TextView>(view, R.id.friend_username_text)
-        }
-    }
-
-    class object {
-
-        private val TAG = javaClass<RecipientAdapter>().getSimpleName()
+        val selectedCheckbox: CheckBox = view.findViewById(R.id.friend_selected_checkbox) as CheckBox
+        val usernameText: TextView = view.findViewById(R.id.friend_username_text) as TextView
     }
 }

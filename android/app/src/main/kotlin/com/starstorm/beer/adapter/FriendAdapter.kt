@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 
 import com.crashlytics.android.Crashlytics
-import com.novoda.notils.caster.Views
 import com.parse.FunctionCallback
 import com.parse.ParseCloud
 import com.parse.ParseException
@@ -20,28 +19,30 @@ import com.starstorm.beer.R
 import com.starstorm.beer.util.*
 
 import java.util.Arrays
-import java.util.HashMap
 
 /**
  * Created by Conor on 17/09/2014.
  */
-public class FriendAdapter(context: Context)// Here we can configure a ParseQuery to our heart's desire.
-: ParseQueryAdapter<ParseObject>(context, object : ParseQueryAdapter.QueryFactory<ParseObject> {
-    override fun create(): ParseQuery<ParseObject> {
-        val friendshipFromQuery = ParseQuery<ParseObject>("Friendship").whereEqualTo("from", ParseUser.getCurrentUser()).whereNotEqualTo("status", "rejected")
+public class FriendAdapter(context: Context) : ParseQueryAdapter<ParseObject>(context, FriendAdapter.queryFactory) {
 
-        val friendshipToQuery = ParseQuery<ParseObject>("Friendship").whereEqualTo("to", ParseUser.getCurrentUser()).whereNotEqualTo("status", "rejected")
+    class object {
+        val queryFactory = object : ParseQueryAdapter.QueryFactory<ParseObject> {
+            override fun create(): ParseQuery<ParseObject> {
+                val friendshipFromQuery = ParseQuery<ParseObject>("Friendship").whereEqualTo("from", ParseUser.getCurrentUser()).whereNotEqualTo("status", "rejected")
 
-        val friendshipQuery = ParseQuery.or<ParseObject>(Arrays.asList<ParseQuery<ParseObject>>(friendshipFromQuery, friendshipToQuery))
+                val friendshipToQuery = ParseQuery<ParseObject>("Friendship").whereEqualTo("to", ParseUser.getCurrentUser()).whereNotEqualTo("status", "rejected")
 
-        friendshipQuery.include("from")
-        friendshipQuery.include("to")
-        return friendshipQuery
+                val friendshipQuery = ParseQuery.or<ParseObject>(Arrays.asList<ParseQuery<ParseObject>>(friendshipFromQuery, friendshipToQuery))
+
+                friendshipQuery.include("from")
+                friendshipQuery.include("to")
+                return friendshipQuery
+            }
+        }
     }
-}) {
 
     override fun getItemView(item: ParseObject, recycledView: View?, parent: ViewGroup): View {
-        var view : View
+        var view: View
         val holder: ViewHolder
         if (recycledView != null) {
             view = recycledView
@@ -107,19 +108,8 @@ public class FriendAdapter(context: Context)// Here we can configure a ParseQuer
 
 
     class ViewHolder(view: View) {
-        val acceptButton: Button
-        val usernameText: TextView
-        val statusText: TextView
-
-        {
-            acceptButton = Views.findById<Button>(view, R.id.accept_friend_button)
-            usernameText = Views.findById<TextView>(view, R.id.friend_username_text)
-            statusText = Views.findById<TextView>(view, R.id.friendship_status_text)
-        }
-    }
-
-    class object {
-
-        private val TAG = javaClass<FriendAdapter>().getSimpleName()
+        val acceptButton: Button = view.findViewById(R.id.accept_friend_button) as Button
+        val usernameText: TextView = view.findViewById(R.id.friend_username_text) as TextView
+        val statusText: TextView = view.findViewById(R.id.friendship_status_text) as TextView
     }
 }

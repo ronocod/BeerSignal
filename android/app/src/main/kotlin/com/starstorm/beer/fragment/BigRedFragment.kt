@@ -27,7 +27,7 @@ import java.util.ArrayList
 
 public class BigRedFragment : Fragment() {
 
-    private val signalService = ParseSignalService.INSTANCE
+    private val signalService = ParseSignalService
 
     private var sendToAllCheckbox: CheckBox? = null
     private var recipientAdapter: RecipientAdapter? = null
@@ -107,7 +107,7 @@ public class BigRedFragment : Fragment() {
         if (sendToAllCheckbox!!.isChecked()) {
             signalService.fireSignal(callback)
         } else {
-            val objectIdSet = recipientAdapter!!.getRecipients().keySet()
+            val objectIdSet = recipientAdapter!!.recipients.keySet()
             val objectIds = ArrayList<String>(objectIdSet.size())
             for (id in objectIdSet) {
                 objectIds.add(id)

@@ -115,7 +115,7 @@ public class MainActivity : ActionBarActivity() {
                 1 -> getString(R.string.title_section1)
                 2 -> getString(R.string.title_section2)
                 3 -> "Facebook Friends test"
-                else -> null
+                else -> ""
             }
             return title.toUpperCase(l)
         }

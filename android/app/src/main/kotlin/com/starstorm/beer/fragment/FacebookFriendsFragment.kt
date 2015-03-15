@@ -36,10 +36,9 @@ import bolts.Task
  * Use the {@link com.starstorm.beer.fragment.FacebookFriendsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FacebookFriendsFragment// Required empty public constructor
-: Fragment() {
+public class FacebookFriendsFragment : Fragment() {
 
-    private val friendService = ParseFriendService.INSTANCE
+    private val friendService = ParseFriendService
 
     private var swipeLayout: SwipeRefreshLayout? = null
     private var addFriendNameText: TextView? = null
@@ -130,7 +129,7 @@ public class FacebookFriendsFragment// Required empty public constructor
                     addFriendNameText!!.setText("")
                 } else {
                     Crashlytics.logException(e)
-                    Toaster.showShort(getActivity(), "Error: " + e!!.getMessage())
+                    Toaster.showShort(getActivity(), "Error: ${e.getMessage()}")
                 }
             }
         })

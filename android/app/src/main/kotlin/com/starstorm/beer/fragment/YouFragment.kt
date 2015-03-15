@@ -33,10 +33,9 @@ import com.starstorm.beer.util.Toaster
 
 import java.util.Arrays
 
-public class YouFragment// Required empty public constructor
-: Fragment() {
-    private val authService = ParseAuthService.INSTANCE
-    private val userService = ParseUserService.INSTANCE
+public class YouFragment : Fragment() {
+    private val authService = ParseAuthService
+    private val userService = ParseUserService
 
     private var usernameText: TextView? = null
     private var emailField: EditText? = null
@@ -175,9 +174,8 @@ public class YouFragment// Required empty public constructor
             linkFacebookButton!!.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(view: View) {
                     linkFacebookButton!!.setProgress(1)
-                    val currentUser = ParseUser.getCurrentUser()
                     val permissions = Arrays.asList<String>("email")
-                    ParseFacebookUtils.link(currentUser, permissions, getActivity(), object : SaveCallback {
+                    ParseFacebookUtils.link(ParseUser.getCurrentUser(), permissions, getActivity(), object : SaveCallback {
                         override fun done(e: ParseException?) {
                             if (e == null) {
                                 linkFacebookButton!!.setIdleText("Linked to Facebook")

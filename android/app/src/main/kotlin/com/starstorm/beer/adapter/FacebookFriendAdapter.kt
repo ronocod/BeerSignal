@@ -22,22 +22,29 @@ import com.starstorm.beer.service.ParseFriendService
 
 import java.util.ArrayList
 
-public class FacebookFriendAdapter(context: Context, friends: List<GraphUser>) : ParseQueryAdapter<ParseUser>(context, object : ParseQueryAdapter.QueryFactory<ParseUser> {
-    override fun create(): ParseQuery<ParseUser> {
-        val friendsList = ArrayList<Long>()
-        for (user in friends) {
-            friendsList.add(java.lang.Long.valueOf(user.getId()))
-        }
-        val friendQuery = ParseUser.getQuery()
-        friendQuery.whereContainedIn("facebookId", friendsList)
-
-        return friendQuery
-    }
-}) {
+public class FacebookFriendAdapter(context: Context, friends: List<GraphUser>)
+    : ParseQueryAdapter<ParseUser>(context, FacebookFriendAdapter.queryFactory(friends)) {
     private val friendService = ParseFriendService
 
+    class object {
+        fun queryFactory(friends: List<GraphUser>): ParseQueryAdapter.QueryFactory<ParseUser>{
+            return object : ParseQueryAdapter.QueryFactory<ParseUser> {
+                override fun create(): ParseQuery<ParseUser> {
+                    val friendsList = ArrayList<Long>()
+                    for (user in friends) {
+                        friendsList.add(user.getId().toLong())
+                    }
+                    val friendQuery = ParseUser.getQuery()
+                    friendQuery.whereContainedIn("facebookId", friendsList)
+
+                    return friendQuery
+                }
+            }
+        }
+    }
+
     override fun getItemView(user: ParseUser, recycledView: View?, parent: ViewGroup): View {
-        var view : View
+        var view: View
         val holder: ViewHolder
         if (recycledView != null) {
             view = recycledView
@@ -93,21 +100,9 @@ public class FacebookFriendAdapter(context: Context, friends: List<GraphUser>) :
     }
 
     class ViewHolder(view: View) {
-        val facebookFriendPhoto: ImageView
-        val addButton: Button
-        val usernameText: TextView
-        val statusText: TextView
-
-        {
-            facebookFriendPhoto = view.findViewById(R.id.facebook_friend_photo) as ImageView
-            addButton = Views.findById<Button>(view, R.id.add_friend_button)
-            usernameText = Views.findById<TextView>(view, R.id.friend_username_text)
-            statusText = Views.findById<TextView>(view, R.id.friendship_status_text)
-        }
-    }
-
-    class object {
-
-        private val TAG = javaClass<FacebookFriendAdapter>().getSimpleName()
+        val facebookFriendPhoto: ImageView = view.findViewById(R.id.facebook_friend_photo) as ImageView
+        val addButton: Button = view.findViewById(R.id.add_friend_button) as Button
+        val usernameText: TextView = view.findViewById(R.id.friend_username_text) as TextView
+        val statusText: TextView = view.findViewById(R.id.friendship_status_text) as TextView
     }
 }
